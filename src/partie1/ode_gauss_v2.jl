@@ -55,11 +55,11 @@ function ode_gauss_v2(phi::Function, t0tf, y0, option)
     # Input variables
     t = t0tf[1]
     tf = t0tf[2]
-    N = option[1]
+    N = Int(option[1])
     fpitermax = option[2]
     fpeps = option[3]
     # Output variables
-    ifail = 1 
+    ifail = ones(N) 
     nphie = 0
     T = zeros(N + 1)
     T[1] = t
@@ -77,7 +77,11 @@ function ode_gauss_v2(phi::Function, t0tf, y0, option)
         t2 = t + c2 * h
         k1 = phi(t1, y)
         k2 = phi(t2, y)
-        KK = [KK [k1 k2]]
+        if KK == []
+            KK = [k1 k2]
+        else
+            KK = [KK [k1 k2]]
+        end
         nphie = nphie + 2
         normprog = 1 
         nbiter = 1
@@ -103,6 +107,6 @@ function ode_gauss_v2(phi::Function, t0tf, y0, option)
     end # end for
     T = T[:]
 
-    return [T, Y, nphie, ifail, KK]
+    return T, Y, nphie, ifail, KK
 end
 

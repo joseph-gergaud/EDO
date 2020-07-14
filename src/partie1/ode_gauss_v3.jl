@@ -39,7 +39,7 @@
  k1 and k2 = k1 and k2 of the Runge-Kutta scheme
  delta1y
 """
-function ode_gauss_v3(phi,dphi,t0tf,y0,option)
+function ode_gauss_v3(phi::Function,dphi::Function,t0tf,y0,option)
 
     # Initialisation
     # --------------
@@ -57,12 +57,12 @@ function ode_gauss_v3(phi,dphi,t0tf,y0,option)
     # Input variables
     t = t0tf[1]
     tf = t0tf[2]
-    N = option[1]
+    N = Int(option[1])
     fpitermax = option[2]
     fpeps = option[3]
 
     # Output variables
-    ifail = 1 
+    ifail = ones(N) 
     nphie = 0 
     ndphie = 0
     T = zeros(N+1)
@@ -79,14 +79,18 @@ function ode_gauss_v3(phi,dphi,t0tf,y0,option)
     for i=1:N,
         t1 = t + c1*h
         t2 = t + c2*h
-        K = [phi(t1,y), phi(t2,y)]
-        KK = [KK K]
+        K = [phi(t1,y) ;phi(t2,y)]
+        if KK == []
+            KK = K
+        else
+            KK = [KK K]
+        end
         k1 = K[1:n]
         k2 = K[n+1:2*n]
         nphie = nphie + 2
         normprog = 1 
         nbiter = 0
-        while (normprog > fpeps) & (nbiter <= fpitermax),     # Newton
+        while (normprog > fpeps) & (nbiter <= fpitermax)     # Newton
             g1 = y + h * (a11*k1 + a12*k2)
             g2 = y + h * (a21*k1 + a22*k2)
             phik1 = phi(t1,g1)
@@ -97,6 +101,8 @@ function ode_gauss_v3(phi,dphi,t0tf,y0,option)
             d_phik2 = dphi(t2,g2)
             ndphie = ndphie + 2
             JFK0 = [I-a11*h*d_phik1 -a12*h*d_phik1; -a21*h*d_phik2  I-a22*h*d_phik2]
+            println(size(k1))
+            println(size(FK0))
             deltaK = -JFK0 \ FK0
             normprog = norm(deltaK)
             K = K + deltaK
@@ -119,6 +125,6 @@ function ode_gauss_v3(phi,dphi,t0tf,y0,option)
     end # end for
     T = T[:]
     
-    return [T,Y,nphie,ndphie,ifail,KK]
+    return T,Y,nphie,ndphie,ifail,KK
 end
 

@@ -11,9 +11,8 @@
  deuxieme membre de l'equation differentiel de l'equation de Van der Pol
    ref: Hairer
 """
-function phi_dvp(t, y)
-  
-    ypoint = [y[2], (1 - y[1] * y[1]) * y[2] - y[1]]
+function phi_vdp(t, y)
+    ypoint = [y[2]; (1 - y[1] * y[1]) * y[2] - y[1]]
     return ypoint
 end
 
