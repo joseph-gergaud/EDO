@@ -20,16 +20,14 @@ include("ode_gauss_v3.jl")
 include("phi_vdp.jl")
 include("d_phi_vdp.jl")
 
-y0=[2.008619860874843136, 0]
+y0 = [2.008619860874843136, 0]
 n = length(y0)
-t0=0
-tf=6.663286859323130189
-N0=[120:60:1080; 1200:600:10800] # multiple de 12 pour avoir des nombres entier si on divise par 4 ou 3
-N=N0
+t0 = 0
+tf = 6.663286859323130189
+N0 = [120:60:1080; 1200:600:10800] # multiple de 12 pour avoir des nombres entier si on divise par 4 ou 3
+N = N0
 #
 # Gauss Newton
-
-#clear T Y err1 err2
 
 s = 2
 N = N0/(2*s)
@@ -59,38 +57,27 @@ for i=1:length(N)
     Nphie[i] = nphie + n * ndphie
 end
 # Inutile de trie car deja en ordre
-#PyPlot.figure(1) # pour verifier l"ordre
+# pour verifier l"ordre
 # ---------------------
 pyplot()
 plt = Plots.plot(layout=(2,2))
-#PyPlot.subplot(1,2,1)
 #hold on
 Plots.plot!(log10.(N0),log10.(err1),subplot=1)  
-#PyPlot.subplot(1,2,2)
 #hold on
 Plots.plot!(log10.(N0),log10.(err2),subplot=2)
-#figure(2) 
 # vraie courbe
 # ------------
-#plt = Plots.plot(layout=(1,2))
-#subplot(1,2,1)
-Plots.plot!(log10.(Nphie),log10.(err1),color="red",subplot=3)
+Plots.plot!(log10.(Nphie),log10.(err1),color="red",xlabel="log_{10}(fe)",ylabel="log_{10}(erreur pour y_1)",subplot=3)
 i=round(length(N)/2)
 #text(log10(Nphie[i] ) ,log10(err1[i] ) ,"\color{red}Gauss")
-#xlabel("log_{10}(fe)")
-#ylabel("log_{10}(erreur pour y_1)")     
 #v=axis
 #axis([v(1) v(2) v(3)-4 v(4)])
-#subplot(1,2,2)
-Plots.plot!(log10.(Nphie),log10.(err2),color="red",subplot=4)
+Plots.plot!(log10.(Nphie),log10.(err2),color="red",xlabel="log_{10}(nphi)",ylabel="log_{10}(erreur pour y_2)",subplot=4)
 i=round(length(N)/2)
 #text(log10(Nphie[i] ) ,log10(err2[i] ) ,"\color{red}Gauss")
-#xlabel("log_{10}(nphi)")
-#ylabel("log_{10}(erreur pour y_2)") 
 #axis([v(1) v(2) v(3)-4 v(4)])
 #legend("Euler", "Runge","Heun","RK4_1","RK4_2","gauss v2 feps=1.e-12","Location","SouthWest")
 #=figure(3) 
-
 
 T,Y,nphie,ndphie,ifail,KK = ode_gauss_v3(phi_vdp,d_phi_vdp,[t0 tf],y0,options)
 =#

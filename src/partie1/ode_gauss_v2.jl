@@ -10,15 +10,15 @@ Email:    gergaud@enseeiht.fr
 
 Numerical integration by Gauss method of order 4
 
-function [T,Y,nphie,ifail,KK]=ode_gauss_v2(phi,t0tf,y0,option)
+function [T,Y,nphie,ifail,KK]=ode_gauss_v2(phi,t0tf,y0,options)
 Input parameters
 ----------------
 phi = second member ypoint=phi(t,y)
 t0tf = [t0,tf]
 y0 = initial point
-option(1) = N = number of step
-option(2) = fpitermax = maximum number of iterations for the fixed point
-option(3) = fpeps = epsilon for the test of progress in the fixed point
+options(1) = N = number of step
+options(2) = fpitermax = maximum number of iterations for the fixed point
+options(3) = fpeps = epsilon for the test of progress in the fixed point
 
 Output parameters
 -----------------
@@ -38,26 +38,22 @@ h = constant step
 k1 and k2 = k1 and k2 of the Runge-Kutta scheme
 delta1y
 """
-function ode_gauss_v2(phi::Function, t0tf, y0, option)
+function ode_gauss_v2(phi::Function, t0tf, y0, options)
 
     # Initialisation
     # --------------
-    # Coefficent of the Butcher's array
-    c1 = 1/2 - sqrt(3)/6
-    c2 = 1/2 + sqrt(3)/6
-    a11 = 1/4 
-    a12 = 1/4 - sqrt(3)/6
-    a21 = 1/4 + sqrt(3)/6 
-    a22 = 1/4
-    b1 = 1/2 
-    b2 = 1/2
+    # Coefficents of the Butcher's array
+    c1 = 1/2 - sqrt(3)/6;   c2 = 1/2 + sqrt(3)/6
+    a11 = 1/4;             a12 = 1/4 - sqrt(3)/6
+    a21 = 1/4 + sqrt(3)/6; a22 = 1/4
+    b1 = 1/2;               b2 = 1/2
     
     # Input variables
     t = t0tf[1]
     tf = t0tf[2]
-    N = Int(option[1])
-    fpitermax = option[2]
-    fpeps = option[3]
+    N = Int(options[1])
+    fpitermax = options[2]
+    fpeps = options[3]
     # Output variables
     ifail = ones(N) 
     nphie = 0

@@ -19,17 +19,18 @@ include("ode_gauss_v2.jl")
 include("ode_gauss_v3.jl")
 include("phi_vdp.jl")
 include("d_phi_vdp.jl")
+include("plot_sol.jl")
 #rm("testgauss.txt")
 #diary("testgauss.txt")
-y0=[2.008619860874843136; 0]
-t0=0
-tf=6.663286859323130189
-N0=[120:60:1080; 1200:600:10800] # multiple de 12 pour avoir des nombres entier si on divise par 4 ou 3
-N=N0
-N=10
+y0 = [2.008619860874843136; 0]
+t0 = 0
+tf = 6.663286859323130189
+N0 = [120:60:1080; 1200:600:10800] # multiple de 12 pour avoir des nombres entier si on divise par 4 ou 3
+N = N0
+N = 10
 #
 # Gauss point fixe
-N= 10
+N = 10
 options = zeros(3)
 options[1] = N
 options[2] = 15
@@ -38,12 +39,16 @@ T,Y,nphie,ifail,KK = ode_gauss_v2(phi_vdp,[t0 tf],y0,options)
 #
 println("Point fixe")
 println("----------")
-println("[T Y]")
-println([T Y])
-println(nphie)
-println(ifail)
+#println("[T Y]")
+#println([T Y])
+#println(nphie)
+#println(ifail)
 I = findall(ifail==-1)
 ifail[I] .= options[2]
+
+pyplot()
+plt = Plots.plot(layout=(1,3))
+plot_sol(T,Y,"red",["y_1(t) v2,N="*string(N) ,"y_2(t) v2,N="*string(N),"y_2(y_1) v2,N="*string(N)])
 
 # KK(:,cumsum(ifail+1))
 #
@@ -51,27 +56,17 @@ ifail[I] .= options[2]
 T,Y,nphie,ndphie,ifail,KK = ode_gauss_v3(phi_vdp,d_phi_vdp,[t0 tf],y0,options)
 println("Newton")
 println("------")
-println("[T Y]")
-println([T Y])
-println(nphie)
-println(ndphie)
-println(ifail)
-println(KK)
+#println("[T Y]")
+#println([T Y])
+#println(nphie)
+#println(ndphie)
+#println(ifail)
+#println(KK)
 #
-pyplot()
-plt = Plots.plot(layout=(1,3))
 
-Plots.plot!(T,Y[:,1],xlabel="t",ylabel="y_1(t)",label="y_1(t) version 3",subplot=1)
-Plots.plot!(T,Y[:,2],xlabel="t",ylabel="y_2(t)",label="y_2(t) version 3",subplot=2)
-Plots.plot!(Y[:,1],Y[:,2],xlabel="y_1(t)",ylabel="y_2(t)",label="y_2(y_1) version 3",subplot=3)
-
-N= 200
-options[2] = 15
-options[3] = 1e-6
+plot_sol(T,Y,"green",["y_1(t) v3,N="*string(N),"y_2(t) v3,N="*string(N),"y_2(y_1) v3,N="*string(N)])
+N = 200
 options[1] = N
 
 T,Y,nphie,ifail = ode_gauss_v2(phi_vdp,[t0 tf],y0,options)
-
-Plots.plot!(T,Y[:,1],xlabel="t",ylabel="y_1(t)",label="y_1(t) version 2",subplot=1)
-Plots.plot!(T,Y[:,2],xlabel="t",ylabel="y_2(t)",label="y_2(t) version 2",subplot=2)
-Plots.plot!(Y[:,1],Y[:,2],xlabel="y_1(t)",ylabel="y_2(t)",label="y_2(y_1) version 2",subplot=3)
+plot_sol(T,Y,"blue",["y_1(t) v2,N="*string(N),"y_2(t) v2,N="*string(N),"y_2(y_1) v2,N="*string(N)])
