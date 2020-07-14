@@ -13,6 +13,6 @@
 """
 function phi_vdp(t, y)
     ypoint = [y[2]; (1 - y[1] * y[1]) * y[2] - y[1]]
+
     return ypoint
 end
-

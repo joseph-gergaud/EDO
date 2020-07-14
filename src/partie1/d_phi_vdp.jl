@@ -13,8 +13,7 @@
 """
 function d_phi_vdp(t,y)
     
-    dypoint=[0 1; -2*y[1]*y[2]-1 1-y[1]^2]
+    dypoint = [0 1; -2*y[1]*y[2]-1 1-y[1]^2]
 
     return dypoint
 end
-

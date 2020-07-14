@@ -1,5 +1,6 @@
 using Plots
-
+using PyPlot
+using LinearAlgebra
 """
  ~gergaud/ENS/Control/ODE/Matlab/test_gauss.m
 
@@ -56,21 +57,21 @@ println(nphie)
 println(ndphie)
 println(ifail)
 println(KK)
-
+#
 pyplot()
-plt = Plots.plot(layout=(2,2))
+plt = Plots.plot(layout=(1,3))
 
-Plots.plot!(T,Y[:,1],xlabel="t",ylabel="y_1(t)",subplot=1)
-Plots.plot!(T,Y[:,2],xlabel="t",ylabel="y_2(t)",subplot=2)
-Plots.plot!(Y[:,1],Y[:,2],xlabel="y_1(t)",ylabel="y_2(t)",subplot=3)
+Plots.plot!(T,Y[:,1],xlabel="t",ylabel="y_1(t)",label="y_1(t) version 3",subplot=1)
+Plots.plot!(T,Y[:,2],xlabel="t",ylabel="y_2(t)",label="y_2(t) version 3",subplot=2)
+Plots.plot!(Y[:,1],Y[:,2],xlabel="y_1(t)",ylabel="y_2(t)",label="y_2(y_1) version 3",subplot=3)
 
 N= 200
 options[2] = 15
 options[3] = 1e-6
 options[1] = N
 
-[T,Y,nphie,ifail] = ode_gauss_v2(phi_vdp,[t0 tf],y0,options)
+T,Y,nphie,ifail = ode_gauss_v2(phi_vdp,[t0 tf],y0,options)
 
-Plots.plot!(T,Y[:,1],xlabel="t",ylabel="y_1(t)",subplot=1)
-Plots.plot!(T,Y[:,2],xlabel="t",ylabel="y_2(t)",subplot=2)
-Plots.plot!(Y[:,1],Y[:,2],xlabel="y_1(t)",ylabel="y_2(t)",subplot=3)
+Plots.plot!(T,Y[:,1],xlabel="t",ylabel="y_1(t)",label="y_1(t) version 2",subplot=1)
+Plots.plot!(T,Y[:,2],xlabel="t",ylabel="y_2(t)",label="y_2(t) version 2",subplot=2)
+Plots.plot!(Y[:,1],Y[:,2],xlabel="y_1(t)",ylabel="y_2(t)",label="y_2(y_1) version 2",subplot=3)

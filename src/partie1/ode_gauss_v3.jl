@@ -95,7 +95,7 @@ function ode_gauss_v3(phi::Function,dphi::Function,t0tf,y0,option)
             g2 = y + h * (a21*k1 + a22*k2)
             phik1 = phi(t1,g1)
             phik2 = phi(t2,g2)
-            FK0 = [k1-phik1  k2-phik2]
+            FK0 = [k1-phik1 ; k2-phik2]
             nphie = nphie + 2
             d_phik1 = dphi(t1,g1)
             d_phik2 = dphi(t2,g2)
