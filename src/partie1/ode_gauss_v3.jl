@@ -101,8 +101,6 @@ function ode_gauss_v3(phi::Function,dphi::Function,t0tf,y0,option)
             d_phik2 = dphi(t2,g2)
             ndphie = ndphie + 2
             JFK0 = [I-a11*h*d_phik1 -a12*h*d_phik1; -a21*h*d_phik2  I-a22*h*d_phik2]
-            println(size(k1))
-            println(size(FK0))
             deltaK = -JFK0 \ FK0
             normprog = norm(deltaK)
             K = K + deltaK
