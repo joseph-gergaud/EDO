@@ -15,7 +15,7 @@ function rk4_1(f::Function, t, y, h)
     k2 = f(t + h / 2, y + (h / 2) * k1)
     k3 = f(t + h / 2, y + (h / 2) * k2)
     k4 = f(t + h, y + h * k3)
-    Phi=(1/6) * (k1 + 2*k2 + 2 * k3 + k4)
+    Phi = (1/6) * (k1 + 2*k2 + 2 * k3 + k4)
 
     return Phi
 end

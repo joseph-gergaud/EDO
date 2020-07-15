@@ -1,108 +1,119 @@
 """
- ~gergaud/ENS/Control/ODE/Matlab/IVP_vdp.m
+~gergaud/ENS/Control/ODE/Matlab/IVP_vdp.m
 
- Auteurs:  Joseph GERGAUD
- Date:     nov. 2005
- Adresse:  INP-ENSEEIHT-IRIT-UMR CNRS 5055
-           2, rue Camichel 31071 Toulouse FRANCE
- Email:    gergaudenseeiht.fr
+Auteurs:  Joseph GERGAUD
+Date:     nov. 2005
+Adresse:  INP-ENSEEIHT-IRIT-UMR CNRS 5055
+        2, rue Camichel 31071 Toulouse FRANCE
+Email:    gergaudenseeiht.fr
 ***************************************************************************
 
- Int�gration de l'equation differentiel de l'equation de Van der Pol
- ref: Hairer
+Int�gration de l'equation differentiel de l'equation de Van der Pol
+ref: Hairer
 
 
- Initialisations
- ---------------
+Initialisations
+---------------
 """ 
+
+include("ode_gauss_v3.jl")
+include("ode_gauss_v2.jl")
+include("ode_gauss.jl")
+include("plot_sol.jl")
+include("d_phi_vdp.jl")
+include("phi_vdp.jl")
+include("edo_euler.jl")
+include("edo_runge.jl")
+include("edo_rk4.jl")
+include("edo_heun.jl")
 #clear all close all
-nom_fich = "IVP_vdp_N_10.txt"
-if exist(nom_fich,"file"),
-    delete(nom_fich)
-end
-format long
-diary(nom_fich)
+#nom_fich = "IVP_vdp_N_10.txt"
+#if exist(nom_fich,"file")
+#    delete(nom_fich)
+#end
+#format long
+#diary(nom_fich)
+#
 
 
-
-y0=[2.008619860874843136
-     0]
-t0=0
-tf=6.663286859323130189
-N0=[120:60:1080 1200:600:10800 ]# 12000:12000:72000] # multiple de 12 pour avoir des nombres entier si on divise
+y0 = [2.008619860874843136; 0]
+t0 = 0
+tf = 6.663286859323130189
+N0 = [120:60:1080; 1200:600:10800 ]# 12000:12000:72000] # multiple de 12 pour avoir des nombres entier si on divise
+options = zeros(3)
 # par 3 ou 4
 #
 # Solutions y_1 et y_2 et plan de phase pour RKE
 # ----------------------------------------------
 N = 10
-figure(4)
-println("Euler")
-println("-----")
-[T,Y] = ode_euler(phi_vdp,[t0 tf],y0,N)
-println("[T Y]=")
-println([T Y])
-plot_sol(T,Y,"b")
-println("Runge")
-println("-----")
-[T,Y] = ode_runge(phi_vdp,[t0 tf],y0,N)
-println("[T Y]=")
-println([T Y])
-plot_sol(T,Y,"k")
-println("Heun")
-println("----")
-[T,Y] = ode_heun(phi_vdp,[t0 tf],y0,N)
-println("[T Y]=")
-println([T Y])
-plot_sol(T,Y,"m")
-println("rk41")
-println("----")
-[T,Y] = ode_rk41(phi_vdp,[t0 tf],y0,N)
-println("[T Y]=")
-println([T Y])
-plot_sol(T,Y,"g")
-println("rk42")
-println("-----")
-[T,Y] = ode_rk42(phi_vdp,[t0 tf],y0,N)
-println("[T Y]=")
-println([T Y])
-plot_sol(T,Y,"c")
-println("Gauss, point fixe")
-println("-----------------")
-option(1) = N
-# option(2) = nbre max iteration point fixe
-option(2) = 15
+#figure(4)
+#println("Euler")
+#println("-----")
+T,Y = ode_euler(phi_vdp,[t0 tf],y0,N)
+#println("[T Y]=")
+#println([T Y])
+plot_sol(T,Y,"blue",["euler","euler","euler"])
+#println("Runge")
+#println("-----")
+T,Y = ode_runge(phi_vdp,[t0 tf],y0,N)
+#println("[T Y]=")
+#println([T Y])
+plot_sol(T,Y,"yellow",["runge","runge","runge"])
+#println("Heun")
+#println("----")
+T,Y = ode_heun(phi_vdp,[t0 tf],y0,N)
+#println("[T Y]=")
+#println([T Y])
+plot_sol(T,Y,"magenta",["heun","heun","heun"])
+#println("rk41")
+#println("----")
+T,Y = ode_rk4(phi_vdp,[t0 tf],y0,N)
+#println("[T Y]=")
+#println([T Y])
+plot_sol(T,Y,"green",["rk41","rk41","rk41"])
+#println("rk42")
+#println("-----")
+T,Y = ode_rk4(phi_vdp,[t0 tf],y0,N)
+#println("[T Y]=")
+#println([T Y])
+plot_sol(T,Y,"cyan",["rk42","rk42","rk42"])
+#println("Gauss, point fixe")
+#println("-----------------")
+options[1] = N
+# options(2) = nbre max iteration point fixe
+options[2] = 15
 # epsilon pour le test du point fixe
 # Il faut 1.e-12 car pour les valeurs de N grandes on atteint avec RK4 1.e-12 comme erreur absolue
-option(3) = 1e-6
-println("[N, nb_itmax, f_eps]")
-println(option)
-[T,Y,nphie,ifail] = ode_gauss_v2(phi_vdp,[t0 tf],y0,option)
-println("[T Y]=")
-println([T Y])
-nphie
-ifail
-plot_sol(T,Y,"r")
+options[3] = 1e-6
+#println("[N, nb_itmax, f_eps]")
+#println(options)
+T,Y,nphie,ifail = ode_gauss_v2(phi_vdp,[t0 tf],y0,options)
+#println("[T Y]=")
+#println([T Y])
+#nphie
+#ifail
+plot_sol(T,Y,"red",["gauss_v2","gauss_v2","gauss_v2"])
 
-println("Gauss, Newton")
-println("-------------")
-println("[N, nb_itmax, f_eps]")
-println(option)
-[T,Y,nphie,ndphie,ifail] = ode_gauss_v3(phi_vdp,d_phi_vdp,[t0 tf],y0,option)
-println("[T Y]=")
-println([T Y])
+#println("Gauss, Newton")
+#println("-------------")
+#println("[N, nb_itmax, f_eps]")
+#println(options)
+T,Y,nphie,ndphie,ifail = ode_gauss_v3(phi_vdp,d_phi_vdp,[t0 tf],y0,options)
+#println("[T Y]=")
+#println([T Y])
 nphie
 ndphie
 ifail
-plot_sol(T,Y,"r+")
+plot_sol(T,Y,"red",["gauss_v3","gauss_v3","gauss_v3"])
 
-legend("Euler", "Runge","Heun","RK4_1","RK4_2","gauss v2","gauss_Newton","Location","SouthEast")
+#legend("Euler", "Runge","Heun","RK4_1","RK4_2","gauss v2","gauss_Newton","Location","SouthEast")
 
 
-print -depsc fig_solutions_vdp
-format short
-diary
-
-pause
+#print -depsc fig_solutions_vdp
+#format short
+#diary
+#
+#pause
 
 # Courbes d"ordre
 # ---------------
@@ -111,10 +122,10 @@ pause
 N=N0
 # Euler
 for i=1:length(N),
-  [T,Y] = ode_euler(phi_vdp,[t0 tf],y0,N(i))
-  n=length(T)
-  err1(i)=abs(y0(1)-Y(n,1))
-  err2(i)=abs(y0(2)-Y(n,2))
+    T,Y = ode_euler(phi_vdp,[t0 tf],y0,N(i))
+    n=length(T)
+    err1(i)=abs(y0(1)-Y(n,1))
+    err2(i)=abs(y0(2)-Y(n,2))
 end
 figure(1)
 subplot(1,2,1)
@@ -131,13 +142,13 @@ ylabel("erreur pour y_2")
 #
 figure(2)
 subplot(1,2,1)
-plot(log10(N),log10(err1))
+Plots.plot(log10(N),log10(err1))
 i=round(length(N)/2)
 text(log10(N(i)),log10(err1(i)),"Euler")
 xlabel("log_{10}(fe)")
 ylabel("log_{10}(erreur pour y_1)")    
 subplot(1,2,2)
-plot(log10(N),log10(err2))
+Plots.plot(log10(N),log10(err2))
 text(log10(N(i)),log10(err2(i)),"Euler") 
 xlabel("log_{10}(fe)")
 ylabel("log_{10}(erreur pour y_2)")  
@@ -147,7 +158,7 @@ ylabel("log_{10}(erreur pour y_2)")
 s=2
 N=N0/s
 for i=1:length(N),
-[T,Y] = ode_runge(phi_vdp,[t0 tf],y0,N(i))
+T,Y = ode_runge(phi_vdp,[t0 tf],y0,N(i))
 n=length(T)
 err1(i)=abs(y0(1)-Y(n,1))
 err2(i)=abs(y0(2)-Y(n,2))
@@ -165,14 +176,14 @@ text(s*N(i),err2(i),"Runge")
 figure(2)
 subplot(1,2,1)
 #hold on
-     plot(log10(s*N),log10(err1),"k")
+    Plots.plot(log10(s*N),log10(err1),"k")
 i=round(length(N)/2)
 #text(log10(s*N(i)),log10(err1(i)),"Runge")
 xlabel("log_{10}(fe)")
 ylabel("log_{10}(erreur pour y_1)")     
 subplot(1,2,2)
 #hold on
-     plot(log10(s*N),log10(err2),"k")
+    Plots.plot(log10(s*N),log10(err2),"k")
 #     text(log10(s*N(i)),log10(err2(i)),"Runge") 
 xlabel("log_{10}(fe)")
 ylabel("log_{10}(erreur pour y_2)")    
@@ -181,10 +192,10 @@ ylabel("log_{10}(erreur pour y_2)")
 s=3
 N=N0/s
 for i=1:length(N),
-[T,Y] = ode_heun(phi_vdp,[t0 tf],y0,N(i))
-n=length(T)
-err1(i)=abs(y0(1)-Y(n,1))
-err2(i)=abs(y0(2)-Y(n,2))
+    T,Y = ode_heun(phi_vdp,[t0 tf],y0,N(i))
+    n=length(T)
+    err1(i)=abs(y0(1)-Y(n,1))
+    err2(i)=abs(y0(2)-Y(n,2))
 end
 figure(1)
 subplot(1,2,1)
@@ -199,14 +210,14 @@ text(s*N(i),err2(i),"Heun")
 figure(2)
 subplot(1,2,1)
 #hold on
-     plot(log10(s*N),log10(err1),"m")
+Plots.plot(log10(s*N),log10(err1),"m")
 i=round(length(N)/2)
 #text(log10(s*N(i)),log10(err1(i)),"Heun")
 xlabel("log_{10}(fe)")
 ylabel("log_{10}(erreur pour y_1)")     
 subplot(1,2,2)
 #hold on
-     plot(log10(s*N),log10(err2),"m")
+Plots.plot(log10(s*N),log10(err2),"m")
 #     text(log10(s*N(i)),log10(err2(i)),"Heun") 
 xlabel("log_{10}(fe)")
 ylabel("log_{10}(erreur pour y_2)")    
@@ -216,10 +227,10 @@ ylabel("log_{10}(erreur pour y_2)")
 s=4
 N=N0/s
 for i=1:length(N),
-[T,Y] = ode_rk41(phi_vdp,[t0 tf],y0,N(i))
-n=length(T)
-err1(i)=abs(y0(1)-Y(n,1))
-err2(i)=abs(y0(2)-Y(n,2))
+    T,Y = ode_rk4(phi_vdp,[t0 tf],y0,N(i))
+    n=length(T)
+    err1(i)=abs(y0(1)-Y(n,1))
+    err2(i)=abs(y0(2)-Y(n,2))
 end
 figure(1)
 subplot(1,2,1)
@@ -234,14 +245,14 @@ text(s*N(i),err2(i),"RK4")
 figure(2)
 subplot(1,2,1)
 #hold on
-     plot(log10(s*N),log10(err1),"g")
+Plots.plot(log10(s*N),log10(err1),"g")
 i=round(length(N)/2)
 #text(log10(s*N(i)),log10(err1(i)),"Rk4")
 xlabel("log_{10}(fe)")
 ylabel("log_{10}(erreur pour y_1)")     
 subplot(1,2,2)
 #hold on
-     plot(log10(s*N),log10(err2),"g")
+Plots.plot(log10(s*N),log10(err2),"g")
 #     text(log10(s*N(i)),log10(err2(i)),"Rk4") 
 xlabel("log_{10}(fe)")
 ylabel("log_{10}(erreur pour y_2)")    
@@ -251,10 +262,10 @@ ylabel("log_{10}(erreur pour y_2)")
 s=4
 N=N0/s
 for i=1:length(N),
-[T,Y] = ode_rk42(phi_vdp,[t0 tf],y0,N(i))
-n=length(T)
-err1(i)=abs(y0(1)-Y(n,1))
-err2(i)=abs(y0(2)-Y(n,2))
+    T,Y = ode_rk4(phi_vdp,[t0 tf],y0,N(i))
+    n=length(T)
+    err1(i)=abs(y0(1)-Y(n,1))
+    err2(i)=abs(y0(2)-Y(n,2))
 end
 figure(1)
 subplot(1,2,1)
@@ -266,13 +277,13 @@ loglog(s*N,err2)
 figure(2)
 subplot(1,2,1)
 #hold on
-plot(log10(s*N),log10(err1),"c")
+Plots.plot(log10(s*N),log10(err1),"c")
 i=round(length(N)/2)
 xlabel("log_{10}(fe)")
 ylabel("log_{10}(erreur pour y_1)")     
 subplot(1,2,2)
 #hold on
-plot(log10(s*N),log10(err2),"c")
+Plots.plot(log10(s*N),log10(err2),"c")
 xlabel("log_{10}(fe)")
 ylabel("log_{10}(erreur pour y_2)")    
 figure(1)
@@ -286,36 +297,36 @@ figure(2)
 Nphie = []
 s=4
 N=N0/s
-# option(2) = nbre max iteration point fixe
-option(2) = 15
+# options(2) = nbre max iteration point fixe
+options(2) = 15
 # epsilon pour le test du point fixe
 # Il faut 1.e-12 car pour les valeurs de N grandes on atteint avec RK4 1.e-12 comme erreur absolue
-option(3) = 1e-12
+options(3) = 1e-12
 Ifail = []
 for i=1:length(N),
-option(1) = N(i)
-[T,Y,nphie,ifail] = ode_gauss_v2(phi_vdp,[t0 tf],y0,option)
-Ifail = [Ifail length(find(ifail==-1))] 
-n=length(T)
-err1(i)=abs(y0(1)-Y(n,1))
-err2(i)=abs(y0(2)-Y(n,2))
-Nphie(i)=nphie
+    options(1) = N(i)
+    [T,Y,nphie,ifail] = ode_gauss_v2(phi_vdp,[t0 tf],y0,options)
+    Ifail = [Ifail length(find(ifail==-1))] 
+    n=length(T)
+    err1(i)=abs(y0(1)-Y(n,1))
+    err2(i)=abs(y0(2)-Y(n,2))
+    Nphie(i)=nphie
 end
 # Inutile de trie car deja en ordre
 figure(1) # pour verifier l'ordre
-          # ---------------------
+ # ---------------------
 subplot(1,2,1)
 #hold on
-loglog(s*N,err1,"r")    
+loglog(s*N,err1,"red")    
 subplot(1,2,2)
 #hold on
-loglog(s*N,err2,"r")
+loglog(s*N,err2,"red")
 print -depsc fig_ordre_Gauss1
 figure(2) 
 # vraie courbe
 # ------------
 subplot(1,2,1)
-plot(log10(Nphie),log10(err1),"r")
+Plots.plot(log10(Nphie),log10(err1),"red")
 i=round(length(N)/2)
 #text(log10(Nphie(i)),log10(err1(i)),"\color{red}Gauss")
 xlabel("log_{10}(fe)")
@@ -323,7 +334,7 @@ ylabel("log_{10}(erreur pour y_1)")
 v=axis
 axis([v(1) v(2) v(3)-4 v(4)])
 subplot(1,2,2)
-plot(log10(Nphie),log10(err2),"r")
+Plots.plot(log10(Nphie),log10(err2),"red")
 i=round(length(N)/2)
 #text(log10(Nphie(i)),log10(err2(i)),"\color{red}Gauss")
 xlabel("log_{10}(nphi)")
@@ -335,13 +346,13 @@ figure(3)
 # vraie courbe
 # ------------
 subplot(1,2,1)
-plot(log10(Nphie),log10(err1),"r")
+Plots.plot(log10(Nphie),log10(err1),"red")
 i=round(length(N)/2)
 #text(log10(Nphie(i)),log10(err1(i)),"\color{red}Gauss")
 xlabel("log_{10}(fe)")
 ylabel("log_{10}(erreur pour y_1)")     
 subplot(1,2,2)
-plot(log10(Nphie),log10(err2),"r")
+Plots.plot(log10(Nphie),log10(err2),"red")
 i=round(length(N)/2)
 #text(log10(Nphie(i)),log10(err2(i)),"\color{red}Gauss")
 xlabel("log_{10}(fe)")
@@ -353,20 +364,20 @@ ylabel("log_{10}(erreur pour y_2)")
 Nphie = []
 s=4
 N=N0/s
-# option(2) = nbre max iteration point fixe
-option(2) = 15
+# options(2) = nbre max iteration point fixe
+options(2) = 15
 # epsilon pour le test du point fixe
 # Il faut 1.e-12 car pour les valeurs de N grandes on atteint avec RK4 1.e-12 comme erreur absolue
-option(3) = 1e-6
+options(3) = 1e-6
 Ifail = []
 for i=1:length(N),
-option(1) = N(i)
-[T,Y,nphie,ifail] = ode_gauss_v2(phi_vdp,[t0 tf],y0,option)
-Ifail = [Ifail length(find(ifail==-1))] 
-n=length(T)
-err1(i)=abs(y0(1)-Y(n,1))
-err2(i)=abs(y0(2)-Y(n,2))
-Nphie(i)=nphie
+    options(1) = N(i)
+    [T,Y,nphie,ifail] = ode_gauss_v2(phi_vdp,[t0 tf],y0,options)
+    Ifail = [Ifail length(find(ifail==-1))] 
+    n=length(T)
+    err1(i)=abs(y0(1)-Y(n,1))
+    err2(i)=abs(y0(2)-Y(n,2))
+    Nphie(i)=nphie
 end
 # 
 figure(3) 
@@ -374,14 +385,14 @@ figure(3)
 # ------------
 subplot(1,2,1)
 #hold on
-plot(log10(Nphie),log10(err1))
+Plots.plot(log10(Nphie),log10(err1))
 i=round(length(N)/2)
 #text(log10(Nphie(i)),log10(err1(i)),"\color{red}Gauss")
 xlabel("log_{10}(fe)")
 ylabel("log_{10}(erreur pour y_1)")     
 subplot(1,2,2)
 #hold on
-plot(log10(Nphie),log10(err2))
+Plots.plot(log10(Nphie),log10(err2))
 i=round(length(N)/2)
 #text(log10(Nphie(i)),log10(err2(i)),"\color{red}Gauss")
 xlabel("log_{10}(fe)")
@@ -392,26 +403,26 @@ ylabel("log_{10}(erreur pour y_2)")
 Nphie = []
 s=4
 N=N0/s
-# option(2) = nbre max iteration point fixe
-option(2) = 2
+# options(2) = nbre max iteration point fixe
+options(2) = 2
 # epsilon pour le test du point fixe
 # Il faut 1.e-12 car pour les valeurs de N grandes on atteint avec RK4 1.e-12 comme erreur absolue
-option(3) = 1e-12
+options(3) = 1e-12
 Ifail = []
 for i=1:length(N),
-option(1) = N(i)
-[T,Y,nphie,ifail] = ode_gauss_v2(phi_vdp,[t0 tf],y0,option)
-Ifail = [Ifail length(find(ifail==-1))] 
-n=length(T)
-err1(i)=abs(y0(1)-Y(n,1))
-err2(i)=abs(y0(2)-Y(n,2))
-Nphie(i)=nphie
+    options(1) = N(i)
+    [T,Y,nphie,ifail] = ode_gauss_v2(phi_vdp,[t0 tf],y0,options)
+    Ifail = [Ifail length(find(ifail==-1))] 
+    n=length(T)
+    err1(i)=abs(y0(1)-Y(n,1))
+    err2(i)=abs(y0(2)-Y(n,2))
+    Nphie(i)=nphie
 end
 figure(3) 
 # vraie courbe
 # ------------
 subplot(1,2,1)
-plot(log10(Nphie),log10(err1),"g")
+Plots.plot(log10(Nphie),log10(err1),"g")
 i=round(length(N)/2)
 #text(log10(Nphie(i)),log10(err1(i)),"\color{red}Gauss")
 xlabel("log_{10}(nphie)")
@@ -419,7 +430,7 @@ ylabel("log_{10}(erreur pour y_1)")
 v=axis
 axis([v(1) v(2) v(3)-2 v(4)])
 subplot(1,2,2)
-plot(log10(Nphie),log10(err2),"g")
+Plots.plot(log10(Nphie),log10(err2),"g")
 i=round(length(N)/2)
 #text(log10(Nphie(i)),log10(err2(i)),"\color{red}Gauss")
 xlabel("log_{10}(fnphi)")
@@ -427,43 +438,43 @@ ylabel("log_{10}(erreur pour y_2)")
 v = axis
 axis([v(1) v(2) v(3)-2 v(4)])
 legend("gauss v2 feps=1.e-12","gauss v2 feps=1.e-6","gauss v2 fpitermax=2","Location","SouthWest")
-print -depsc fig_ordre_Gauss3
+#print -depsc fig_ordre_Gauss3
 #
 # Gauss + Newton
 # ---------------
 Nphie = []
 s=2
 N=N0/(2*s)
-# option(2) = nbre max iteration point fixe
-option(2) = 15
+# options(2) = nbre max iteration point fixe
+options(2) = 15
 # epsilon pour le test du point fixe
 # Il faut 1.e-12 car pour les valeurs de N grandes on atteint avec RK4 1.e-12
 # comme erreur absolue
-option(3) = 1e-12
+options(3) = 1e-12
 Ifail = []
 for i=1:length(N),
-option(1) = N(i)
-[T,Y,nphie,ndphie,ifail] = ode_gauss_v3(phi_vdp,d_phi_vdp,[t0 tf],y0,option)
-Ifail = [Ifail length(find(ifail==-1))] 
-n=length(T)
-err1(i)=abs(y0(1)-Y(n,1))
-err2(i)=abs(y0(2)-Y(n,2))
-Nphie(i)=nphie+n*ndphie
+    options(1) = N(i)
+    [T,Y,nphie,ndphie,ifail] = ode_gauss_v3(phi_vdp,d_phi_vdp,[t0 tf],y0,options)
+    Ifail = [Ifail length(find(ifail==-1))] 
+    n=length(T)
+    err1(i)=abs(y0(1)-Y(n,1))
+    err2(i)=abs(y0(2)-Y(n,2))
+    Nphie(i)=nphie+n*ndphie
 end
 # Inutile de trie car deja en ordre
 #figure(1) # pour verifier l"ordre
 # ---------------------
 #subplot(1,2,1)
 ##hold on
-#plot(log10(N0),log10(err1),"r")    
+#plot(log10(N0),log10(err1),"red")    
 #subplot(1,2,2)
 ##hold on
-#loglog(N0,err2,"r")
+#loglog(N0,err2,"red")
 figure(2) 
 # vraie courbe
 # ------------
 subplot(1,2,1)
-plot(log10(Nphie),log10(err1),"r")
+Plots.plot(log10(Nphie),log10(err1),"red")
 i=round(length(N)/2)
 #text(log10(Nphie(i)),log10(err1(i)),"\color{red}Gauss")
 #xlabel("log_{10}(fe)")
@@ -471,12 +482,10 @@ ylabel("log_{10}(erreur pour y_1)")
 #v=axis
 #axis([v(1) v(2) v(3)-4 v(4)])
 subplot(1,2,2)
-plot(log10(Nphie),log10(err2),"r")
+Plots.plot(log10(Nphie),log10(err2),"red")
 i=round(length(N)/2)
 #text(log10(Nphie(i)),log10(err2(i)),"\color{red}Gauss")
 #xlabel("log_{10}(nphi)")
 ylabel("log_{10}(erreur pour y_2)") 
 #axis([v(1) v(2) v(3)-4 v(4)])
 #legend("Euler", "Runge","Heun","RK4_1","RK4_2","gauss v2 feps=1.e-12","Location","SouthWest")
-#
-#

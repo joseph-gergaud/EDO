@@ -11,7 +11,7 @@
 # fonction Phi pour le schema d'Euler.
 #
 function euler(f::Function,t,y,h)
-  Phi=f(t,y,h)
+  Phi = f(t,y,h)
 
   return Phi
 end
