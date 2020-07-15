@@ -1,5 +1,5 @@
 using Plots
-function plot_sol(T,Y,c,labels)
+function plot_sol(plt,T,Y,c,labels)
     # plot les solutions
     # T = temps
     # Y = solutions

@@ -32,6 +32,7 @@
 
 function  ode_euler(f::Function,t0tf,x0,N)
    
+    N = Int(N)
     n = length(x0)
     T = zeros(N+1,1)
     X = zeros(N+1,n)
@@ -39,12 +40,11 @@ function  ode_euler(f::Function,t0tf,x0,N)
     pas = (t0tf[2]-t0tf[1])/N
     T[1] = 0
     X[1,:] = x0  
-
     
     for i = 2:N+1         
-        X[i,:] = X[i-1,:] + pas*f(T[i-1],X[i-1,:])'
+        X[i,:] = X[i-1,:] + pas*f(T[i-1],X[i-1,:])
         T[i] = (i-1)*pas
     end 
          
-    return T, X    
+    return T, X
 end  

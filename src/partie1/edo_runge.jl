@@ -35,6 +35,7 @@
 
 function ode_runge(f::Function,t0tf,x0,N)
 
+    N = Int(N)
     n = length(x0)
     T = zeros(N+1,1)
     X = zeros(N+1,n)
@@ -46,8 +47,8 @@ function ode_runge(f::Function,t0tf,x0,N)
     for i = 2:N+1  
         
         T[i] = (i-1)*h
-        k1 = f(T[i-1],X[i-1,:])'
-        k2 = f(T[i-1] + 0.5*h, X[i-1,:] + h*0.5*k1)'         
+        k1 = f(T[i-1],X[i-1,:])
+        k2 = f(T[i-1] + 0.5*h, X[i-1,:] + h*0.5*k1)      
         X[i,:] = X[i-1,:] + h*k2                         
     end 
     return T,X
