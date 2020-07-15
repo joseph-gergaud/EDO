@@ -1,17 +1,19 @@
 #
-# ~gergaud/ENS/edo/Projet/ordre/phi_curtiss.m
+# ~gergaud/ENS/Control/ODE/Matlab/phi_toto.m
 #
 # Auteurs:  Joseph GERGAUD
-# Date:     avril 2008
+# Date:     nov. 2005
 # Adresse:  INP-ENSEEIHT-IRIT-UMR CNRS 5055
 #           2; rue Camichel 31071 Toulouse FRANCE
 # Email:    gergaud@enseeiht.fr
 #***************************************************************************
 #
-# deuxieme membre de l"equation differentiel de l"equation de Curtiss et Hirschfelder
-  # ref: Hairer page 2 tome 2
+# deuxieme membre de l"equation differentiel de l"equation de Van der Pol
+  # ref: Hairer
 #
-function phi_curtiss(t,y)
-     ypoint=-50*(y.-cos(t))
+function phi_toto(f,t,y)
+     ypoint=[0
+	     1]
+     
      return ypoint
 end
