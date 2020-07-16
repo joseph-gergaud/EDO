@@ -30,41 +30,44 @@ closeall()
 y0=[0]
 t0=0
 tf=1.5
-N0=[floor(tf*50/1.974) floor(tf*50/1.875) 50 100]; N=N0
+N0=[floor(tf*50/1.974) floor(tf*50/1.875) 80 100]; N=N0
 option = zeros(3,1)
 
 
 for i=1:length(N)
   #figure(i)
+
   pause("tapez Entrée pour voir les schémas (N = "*string(N[i])*" )")
-  #hold on
+  plt = Plots.plot()
   # Euler
   T,Y=ode_euler(phi_curtiss,[t0 tf],y0,N[i])
-  plot!(T,Y,LineWidth=2, label = "Euler")
+  Plots.plot!(T,Y,LineWidth=2, label = "Euler")
   
   # Runge
   T,Y=ode_runge(phi_curtiss,[t0 tf],y0,N[i])
-  Plots.plot(T,Y,color=:black,LineWidth = 2,label = "Runge")
+  Plots.plot!(T,Y,LineWidth = 2,label = "Runge")
 
   #    
   # Heun
   T,Y=ode_heun(phi_curtiss,[t0 tf],y0,N[i])
-  Plots.plot!(T,Y,color=:yellow,LineWidth = 2,label = "Heun")
+  Plots.plot!(T,Y,LineWidth = 2,label = "Heun")
 
   # RK4 classique
   T,Y=ode_rk41(phi_curtiss,[t0 tf],y0,N[i])
-  Plots.plot!(T,Y,color=:green,LineWidth=2,label = "RK41")
+  Plots.plot!(T,Y,LineWidth=2,label = "RK41")
 
   # RK4 regle 3/8
   T,Y=ode_rk42(phi_curtiss,[t0 tf],y0,N[i])
-  Plots.plot!(T,Y,color=:blue,LineWidth = 2),label = "RK42" 
+  Plots.plot!(T,Y,LineWidth = 2,label = "RK42" )
   # Gauss
   option[2] = 40
   option[3] = 1e-6
   option[1] = N[i]
   T,Y,nphie,ifail=ode_gauss_v2(phi_curtiss,[t0 tf],y0,option)
-  display(Plots.plot!(T,Y,color=:red,LineWidth = 2,xlabel = "t",ylabel = "y(t)" , label = "Gauss"))
-  
+  print(ifail)
+  print("\n")
+  Plots.plot!(T,Y,LineWidth = 2,xlabel = "t",ylabel = "y(t)" , label = "Gauss")
+  display(plt)
 
 
 end
