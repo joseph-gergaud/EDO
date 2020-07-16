@@ -24,8 +24,8 @@ include("ode_rk41.jl")
 include("ode_rk42.jl")
 include("ode_heun.jl")
 include("plot_sol.jl")
-include("d_phi_vdp.jl")
-include("phi_vdp.jl")
+include("d_fun_vdp.jl")
+include("fun_vdp.jl")
 #rm("testgauss.txt")
 #diary("testgauss.txt")
 y0 = [2.008619860874843136; 0]
@@ -38,7 +38,7 @@ options = zeros(3)
 options[1] = N
 options[2] = 15
 options[3] = 1e-12
-T,Y,nphie,ifail,KK = ode_gauss_v2(phi_vdp,[t0 tf],y0,options)
+T,Y,nphie,ifail,KK = ode_gauss_v2(fun_vdp,[t0 tf],y0,options)
 #
 println("Point fixe")
 println("----------")
@@ -56,34 +56,34 @@ plot_sol(plt,T,Y,"red","Gauss v2,N="*string(N))
 # KK(:,cumsum(ifail+1))
 #
 # Gauss Newton
-T,Y,nphie,ndphie,ifail,KK = ode_gauss_v3(phi_vdp,d_phi_vdp,[t0 tf],y0,options)
+T,Y,nphie,ndphie,ifail,KK = ode_gauss_v3(fun_vdp,d_fun_vdp,[t0 tf],y0,options)
 println("Newton")
 println("------")
 
 plot_sol(plt,T,Y,"darkorange","Newton,N="*string(N))
 
-T,Y = ode_euler(phi_vdp,[t0 tf],y0,N)
+T,Y = ode_euler(fun_vdp,[t0 tf],y0,N)
 println("Euler")
 println("------")
 plot_sol(plt,T,Y,"blue","Euler,N="*string(N))
 
-T,Y = ode_runge(phi_vdp,[t0 tf],y0,N)
+T,Y = ode_runge(fun_vdp,[t0 tf],y0,N)
 println("Runge")
 println("------")
 
 plot_sol(plt,T,Y,"black","Runge,N="*string(N))
 
-T,Y = ode_heun(phi_vdp,[t0 tf],y0,N)
+T,Y = ode_heun(fun_vdp,[t0 tf],y0,N)
 println("Heun")
 println("------")
 plot_sol(plt,T,Y,"magenta","Heun,N="*string(N))
 
-T,Y = ode_rk41(phi_vdp,[t0 tf],y0,N)
+T,Y = ode_rk41(fun_vdp,[t0 tf],y0,N)
 println("RK41")
 println("------")
 plot_sol(plt,T,Y,"green","RK41,N="*string(N))
 
-T,Y = ode_rk42(phi_vdp,[t0 tf],y0,N)
+T,Y = ode_rk42(fun_vdp,[t0 tf],y0,N)
 println("RK42")
 println("------")
 plot_sol(plt,T,Y,"cyan","RK42,N="*string(N))
@@ -91,5 +91,5 @@ plot_sol(plt,T,Y,"cyan","RK42,N="*string(N))
 #N = 200
 #options[1] = N
 #
-#T,Y,nphie,ifail = ode_gauss_v2(phi_vdp,[t0 tf],y0,options)
+#T,Y,nphie,ifail = ode_gauss_v2(fun_vdp,[t0 tf],y0,options)
 #plot_sol(plt,T,Y,"blue","Gauss v2,N="*string(N))

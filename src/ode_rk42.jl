@@ -4,7 +4,7 @@
 #
 #    Description
 #
-#        Numerical integration of the Cauchy's problem
+#        Numerical integration of the CauchX[i-1,:]'s problem
 #        x_point(t) = f(t,x(t))
 #        x(t_0) = x_0
 #
@@ -12,7 +12,7 @@
 #
 #    Usage
 #
-#        T, X = ode_rk4(f,t0tf,y0,N)
+#        T, X = ode_rk4(f,t0tf,X[i-1,:]0,N)
 #
 #    Inputs
 #        f    - function     : second member of the ode whith the interface 
@@ -29,8 +29,8 @@
 #        The line i of [T Y] contains ti and x_i
 #
 =###############################################################################################
-include("rk4_2.jl")
-function ode_rk42(f::Function,t0tf,x0,N)
+
+function ode_rk42(phi::Function,t0tf,x0,N)
 
     N = Int(N)
     n = length(x0)
@@ -41,16 +41,12 @@ function ode_rk42(f::Function,t0tf,x0,N)
     T[1] = 0
     X[1,:] = x0  
     
-    for i = 2:N+1         
-        X[i,:] = X[i-1,:] + h*rk4_2(f,T[i-1],X[i-1,:],h)
+    for i = 2:N+1     
+        k1 = phi(T[i-1], X[i-1,:])
+        k2 = phi(T[i-1] + h / 3, X[i-1,:] + (h / 3) * k1)
+        k3 = phi(T[i-1] + 2 * h / 3, X[i-1,:] + h*(-(1/3) * k1 + k2))
+        k4 = phi(T[i-1] + h, X[i-1,:] + h * (k1 - k2 + k3))    
+        X[i,:] = X[i-1,:] + h * (k1 + 3 * k2+ 3 * k3 + k4) / 8
     end
-
     return T,X
-end
-    
-    
-
-
-
-
-    
+end  

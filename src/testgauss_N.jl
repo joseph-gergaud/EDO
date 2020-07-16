@@ -17,8 +17,8 @@ using LinearAlgebra
 
 include("ode_gauss_v2.jl")
 include("ode_gauss_v3.jl")
-include("phi_vdp.jl")
-include("d_phi_vdp.jl")
+include("fun_vdp.jl")
+include("d_fun_vdp.jl")
 
 y0 = [2.008619860874843136, 0]
 n = length(y0)
@@ -45,7 +45,7 @@ options[3] = 1e-12
 Ifail = []
 for i=1:length(N)
     options[1] = N[i] 
-    T,Y,nphie,ndphie,ifail = ode_gauss_v3(phi_vdp,d_phi_vdp,[t0 tf],y0,options)
+    T,Y,nphie,ndphie,ifail = ode_gauss_v3(fun_vdp,d_fun_vdp,[t0 tf],y0,options)
     if Ifail != []
         global Ifail = [Ifail length(findall(ifail==-1))] 
     else
@@ -79,6 +79,6 @@ i=round(length(N)/2)
 #legend("Euler", "Runge","Heun","RK4_1","RK4_2","gauss v2 feps=1.e-12","Location","SouthWest")
 #=figure(3) 
 
-T,Y,nphie,ndphie,ifail,KK = ode_gauss_v3(phi_vdp,d_phi_vdp,[t0 tf],y0,options)
+T,Y,nphie,ndphie,ifail,KK = ode_gauss_v3(fun_vdp,d_fun_vdp,[t0 tf],y0,options)
 =#
 display(plt)

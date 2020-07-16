@@ -12,6 +12,6 @@
   # ref: Hairer page 2 tome 2
 #
 function phi_curtiss(t,y)
-     ypoint=-50*(y.-cos(t))
+     ypoint = -50*(y.-cos(t))
      return ypoint
 end

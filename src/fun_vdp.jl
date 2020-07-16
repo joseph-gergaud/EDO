@@ -1,19 +1,17 @@
 """
- ~gergaud/ENS/Control/ODE/Matlab/runge.m
-
  Auteurs:  Joseph GERGAUD
- Date:     nov. 2005
+ Date:     janvier 2000
  Adresse:  INP-ENSEEIHT-IRIT-UMR CNRS 5055
            2, rue Camichel 31071 Toulouse FRANCE
  Email:    gergaud@enseeiht.fr
 ***************************************************************************
 
- fonction Phi pour le schema de Runge
+ deuxieme membre de l'equation differentiel de l'equation de Van der Pol
+   ref: Hairer
 """
-function runge(f::Function, t, y, h)
-    
-    k1 = y + (h / 2) * f(t, y)
-    Phi = f(t + h / 2, k1)
+function fun_vdp(t, y)
+  
+    ypoint = [y[2]; (1 - y[1] * y[1]) * y[2] - y[1]]
 
-    return Phi
+    return ypoint
 end

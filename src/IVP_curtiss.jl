@@ -35,39 +35,39 @@ option = zeros(3,1)
 
 
 for i=1:length(N)
-  #figure(i)
+    #figure(i)
 
-  pause("tapez Entrée pour voir les schémas (N = "*string(N[i])*" )")
-  plt = Plots.plot(title="N = "*string(N[i]))
-  # Euler
-  T,Y=ode_euler(phi_curtiss,[t0 tf],y0,N[i])
-  Plots.plot!(T,Y,LineWidth=2,color=:blue, label = "Euler")
-  
-  # Runge
-  T,Y=ode_runge(phi_curtiss,[t0 tf],y0,N[i])
-  Plots.plot!(T,Y,LineWidth = 2,color =:black,label = "Runge")
+    pause("tapez Entrée pour voir les schémas (N = "*string(N[i])*" )")
+    plt = Plots.plot(title="N = "*string(N[i]))
+    # Euler
+    T,Y=ode_euler(phi_curtiss,[t0 tf],y0,N[i])
+    Plots.plot!(T,Y,LineWidth=2,color=:blue, label = "Euler")
+    
+    # Runge
+    T,Y=ode_runge(phi_curtiss,[t0 tf],y0,N[i])
+    Plots.plot!(T,Y,LineWidth = 2,color =:black,label = "Runge")
 
-  #    
-  # Heun
-  T,Y=ode_heun(phi_curtiss,[t0 tf],y0,N[i])
-  Plots.plot!(T,Y,LineWidth = 2,color=:yellow,label = "Heun")
+    #    
+    # Heun
+    T,Y=ode_heun(phi_curtiss,[t0 tf],y0,N[i])
+    Plots.plot!(T,Y,LineWidth = 2,color=:yellow,label = "Heun")
 
-  # RK4 classique
-  T,Y=ode_rk41(phi_curtiss,[t0 tf],y0,N[i])
-  Plots.plot!(T,Y,LineWidth=2,label = "RK41")
+    # RK4 classique
+    T,Y=ode_rk41(phi_curtiss,[t0 tf],y0,N[i])
+    Plots.plot!(T,Y,LineWidth=2,label = "RK41")
 
-  # RK4 regle 3/8
-  T,Y=ode_rk42(phi_curtiss,[t0 tf],y0,N[i])
-  Plots.plot!(T,Y,LineWidth = 2,label = "RK42" )
-  # Gauss
-  option[2] = 40
-  option[3] = 1e-6
-  option[1] = N[i]
-  T,Y,nphie,ifail=ode_gauss_v2(phi_curtiss,[t0 tf],y0,option)
-  print(ifail)
-  print("\n")
-  Plots.plot!(T,Y,LineWidth = 2,color=:red,xlabel = "t",ylabel = "y(t)" , label = "Gauss")
-  display(plt)
+    # RK4 regle 3/8
+    T,Y=ode_rk42(phi_curtiss,[t0 tf],y0,N[i])
+    Plots.plot!(T,Y,LineWidth = 2,label = "RK42" )
+    # Gauss
+    option[2] = 40
+    option[3] = 1e-6
+    option[1] = N[i]
+    T,Y,nphie,ifail=ode_gauss_v2(phi_curtiss,[t0 tf],y0,option)
+    print(ifail)
+    print("\n")
+    Plots.plot!(T,Y,LineWidth = 2,color=:red,xlabel = "t",ylabel = "y(t)" , label = "Gauss")
+    display(plt)
 
 
 end

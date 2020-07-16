@@ -31,7 +31,7 @@
 =###############################################################################################
 
 
-function  ode_heun(f::Function,t0tf,x0,N)
+function  ode_heun(phi::Function,t0tf,x0,N)
  
     N = Int(N)
     n = length(x0)
@@ -42,12 +42,11 @@ function  ode_heun(f::Function,t0tf,x0,N)
     T[1] = 0
     X[1,:] = x0 
     
-    for i = 2:N+1  
-        
+    for i = 2:N+1          
         T[i] = (i-1)*h
-        k1 = f(T[i-1],X[i-1,:])
-        k2 = f(T[i-1] + (1/3)*h, X[i-1,:] + h*(1/3)*k1) 
-        k3 = f(T[i-1] + (2/3)*h, X[i-1,:] + h*(0*k1 + (2/3)*k2))
+        k1 = phi(T[i-1],X[i-1,:])
+        k2 = phi(T[i-1] + (1/3)*h, X[i-1,:] + h*(1/3)*k1) 
+        k3 = phi(T[i-1] + (2/3)*h, X[i-1,:] + h*(0*k1 + (2/3)*k2))
         X[i,:] = X[i-1,:] + h*((1/4)*k1 +0*k2 + (3/4)*k3 )      
     end 
     return T,X

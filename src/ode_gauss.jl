@@ -39,7 +39,7 @@ using LinearAlgebra
  k1 and k2 = k1 & k2 of the Runge-Kutta scheme
  delta1y
 """ 
-function odegauss(phi::Function,t0tf,y0,option)
+function ode_gauss(phi::Function,t0tf,y0,option)
 
     # Initialisation
     # --------------
