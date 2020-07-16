@@ -30,7 +30,7 @@ closeall()
 y0=[0]
 t0=0
 tf=1.5
-N0=[floor(tf*50/1.974) floor(tf*50/1.875) 80 100]; N=N0
+N0=[floor(tf*50/1.974) floor(tf*50/1.875) 50 100]; N=N0
 option = zeros(3,1)
 
 
@@ -38,19 +38,19 @@ for i=1:length(N)
   #figure(i)
 
   pause("tapez Entrée pour voir les schémas (N = "*string(N[i])*" )")
-  plt = Plots.plot()
+  plt = Plots.plot(title="N = "*string(N[i]))
   # Euler
   T,Y=ode_euler(phi_curtiss,[t0 tf],y0,N[i])
-  Plots.plot!(T,Y,LineWidth=2, label = "Euler")
+  Plots.plot!(T,Y,LineWidth=2,color=:blue, label = "Euler")
   
   # Runge
   T,Y=ode_runge(phi_curtiss,[t0 tf],y0,N[i])
-  Plots.plot!(T,Y,LineWidth = 2,label = "Runge")
+  Plots.plot!(T,Y,LineWidth = 2,color =:black,label = "Runge")
 
   #    
   # Heun
   T,Y=ode_heun(phi_curtiss,[t0 tf],y0,N[i])
-  Plots.plot!(T,Y,LineWidth = 2,label = "Heun")
+  Plots.plot!(T,Y,LineWidth = 2,color=:yellow,label = "Heun")
 
   # RK4 classique
   T,Y=ode_rk41(phi_curtiss,[t0 tf],y0,N[i])
@@ -66,7 +66,7 @@ for i=1:length(N)
   T,Y,nphie,ifail=ode_gauss_v2(phi_curtiss,[t0 tf],y0,option)
   print(ifail)
   print("\n")
-  Plots.plot!(T,Y,LineWidth = 2,xlabel = "t",ylabel = "y(t)" , label = "Gauss")
+  Plots.plot!(T,Y,LineWidth = 2,color=:red,xlabel = "t",ylabel = "y(t)" , label = "Gauss")
   display(plt)
 
 
@@ -77,8 +77,8 @@ end
 #hold on
 #figure(6)
 #hold on
-plt1 = Plots.plot(layout = (2,2),title="Gauss")
-plt2 = Plots.plot(layout = (2,2),title="Euler implicite")
+plt1 = Plots.plot(layout = (2,2))#title="Gauss")
+plt2 = Plots.plot(layout = (2,2))#title="Euler implicite")
 for i=1:length(N)
 	#
 	# Gauss
@@ -90,24 +90,25 @@ for i=1:length(N)
 	T,Y,nphie,ifail=ode_gauss_v2(phi_curtiss,[t0 tf],y0,option)
 	print(ifail)
 	print("\n")
-	Plots.plot!(plt1[i],T,Y,color=:red,LineWidth=2)
+	Plots.plot!(plt1[i],T,Y,color=:red,LineWidth=2,label="N = "*string(N[i]))
 	
 	T,Y,nphie,ifail=ode_euler_imp_v2(phi_curtiss,[t0 tf],y0,option)
 	print(ifail)
 	print("\n")
 	#figure(6)
 	#subplot(2,2,i)
-	Plots.plot!(plt2[i],T,Y,color=:green,LineWidth=2)
+	Plots.plot!(plt2[i],T,Y,color=:green,LineWidth=2,label="N = "*string(N[i]))
 	#figure(5)
 	#title("Gauss")
 	#figure(6)
 	#title("Euler implicite")
 	# print("-depsc",fich)
 end
-pause("tapez entrée pour voir les vraies Courbes avec le schéma d'euler implicite")
-display(plt2)
-pause("tapez entrée pour voir les vraies Courbes avec le schéma dd Gauss")
+
+pause("tapez Entrée pour voir les vraies Figures avec le schéma de Gauss")
 display(plt1)
+pause("tapez Entrée pour voir les vraies Figures avec le schéma d'euler implicite")
+display(plt2)
 #=
 for i=1:6
 figure(i)
