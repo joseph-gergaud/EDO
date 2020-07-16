@@ -1,3 +1,4 @@
+using LinearAlgebra
 """
  ~gergaud/ENS/edo/Projets/ordre/ode_gauss_3.m
 

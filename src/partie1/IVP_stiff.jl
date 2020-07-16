@@ -10,6 +10,8 @@
 
   pb raide
 """
+
+include("phi_stiff.jl")
 y0 = [10]
 t0 = 0
 tf = 1.5

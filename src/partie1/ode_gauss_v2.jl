@@ -1,3 +1,4 @@
+using LinearAlgebra
 """
 ~gergaud/ENS/edo/Matlab/ordre_un_pas/odegauss.m
 
@@ -43,14 +44,13 @@ function ode_gauss_v2(phi::Function, t0tf, y0, options)
     # Initialisation
     # --------------
     # Coefficents of the Butcher's array
-    c1 = 1/2 - sqrt(3)/6;   c2 = 1/2 + sqrt(3)/6
-    a11 = 1/4;             a12 = 1/4 - sqrt(3)/6
-    a21 = 1/4 + sqrt(3)/6; a22 = 1/4
-    b1 = 1/2;               b2 = 1/2
+    c1 = 1/2 - sqrt(3)/6  ; c2 = 1/2 + sqrt(3)/6
+    a11 = 1/4             ; a12 = 1/4 - sqrt(3)/6
+    a21 = 1/4 + sqrt(3)/6 ; a22 = 1/4
+    b1 = 1/2              ; b2 = 1/2
     
     # Input variables
-    t = t0tf[1]
-    tf = t0tf[2]
+    t = t0tf[1];  tf = t0tf[2]
     N = Int(options[1])
     fpitermax = options[2]
     fpeps = options[3]

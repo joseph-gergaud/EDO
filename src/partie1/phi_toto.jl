@@ -8,12 +8,10 @@
 # Email:    gergaud@enseeiht.fr
 #***************************************************************************
 #
-# deuxieme membre de l"equation differentiel de l"equation de Van der Pol
+# deuxieme membre de l'equation differentiel de l'equation de Van der Pol
   # ref: Hairer
 #
 function phi_toto(f,t,y)
-     ypoint=[0
-	     1]
-     
-     return ypoint
+    ypoint=[0; 1]     
+    return ypoint
 end
