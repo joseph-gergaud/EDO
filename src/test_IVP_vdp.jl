@@ -11,8 +11,7 @@
  Int�gration de l'equation differentiel de l'equation de Van der Pol
  ref: Hairer
 """
-y0=[2.00861986087484313650940188
-     0]
+y0=[2.00861986087484313650940188;  0]
 t0=0
 tf=6.6632868593231301896996820305
 N0=10
@@ -25,12 +24,12 @@ for i=1:length(N)
      [T Y]
      Y
      pause
-          subplot(2,1,1)
-          hold on
-          plot(T,Y(:,1))
-          subplot(2,1,2)
-          hold on
-          plot(T,Y(:,2))
+     subplot(2,1,1)
+     hold on
+     plot(T,Y(:,1))
+     subplot(2,1,2)
+     hold on
+     plot(T,Y(:,2))
 
      disp('Runge')
      [T,Y]=ode_runge(phi_vdp,[t0 tf],y0,N(i))
@@ -62,12 +61,12 @@ for i=1:length(N)
      disp('RK42')
      [T,Y]=ode_rk42(phi_vdp,[t0 tf],y0,N(i))
      [T Y]
-          subplot(2,1,1)
-          hold on
-          plot(T,Y(:,1),'r')
-          subplot(2,1,2)
-          hold on
-          plot(T,Y(:,2),'r')
+     subplot(2,1,1)
+     hold on
+     plot(T,Y(:,1),'r')
+     subplot(2,1,2)
+     hold on
+     plot(T,Y(:,2),'r')
      # Gauss
      option(2) = 15
      # epsilon pour le test du point fixe

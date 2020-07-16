@@ -21,11 +21,11 @@ Initialisations
 include("ode_gauss_v3.jl")
 include("ode_gauss_v2.jl")
 include("ode_gauss.jl")
-include("edo_euler.jl")
-include("edo_runge.jl")
-include("edo_rk41.jl")
-include("edo_rk42.jl")
-include("edo_heun.jl")
+include("ode_euler.jl")
+include("ode_runge.jl")
+include("ode_rk41.jl")
+include("ode_rk42.jl")
+include("ode_heun.jl")
 include("plot_sol.jl")
 include("d_phi_vdp.jl")
 include("phi_vdp.jl")
@@ -335,9 +335,10 @@ annotate!([(log10.(Nphie[i]),log10.(err2[i]), Plots.text("Gauss v2 fpitermax=2",
 #
 # Gauss + Newton
 # ---------------
+#=
 Nphie = []
-s=2
-N=N0/(2*s)
+s = 2
+N = N0/(2*s)
 # options[2] = nbre max iteration point fixe
 options[2] = 15
 # epsilon pour le test du point fixe
@@ -361,10 +362,11 @@ end
 
 # vraie courbe
 # ------------
-#Plots.plot!(log10.(Nphie),log10.(err1),color="blue",ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss v3 feps=1e-12")
-#Plots.plot!(log10.(Nphie),log10.(err2),color="blue",ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss v3 feps=1e-12")
+Plots.plot!(log10.(Nphie),log10.(err1),color="blue",ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss v3 feps=1e-12")
+Plots.plot!(log10.(Nphie),log10.(err2),color="blue",ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss v3 feps=1e-12")
 i = rand(1:length(N))
-#annotate!([(log10.(Nphie[i]),log10.(err1[i]), Plots.text("Gauss v3 feps=1e-12", 10,:blue, :center))],subplot=1)
-#annotate!([(log10.(Nphie[i]),log10.(err2[i]), Plots.text("Gauss v3 feps=1e-12", 10,:blue, :center))],subplot=2)
-##legend("Euler", "Runge","Heun","RK4_1","RK4_2","gauss v2 feps=1.e-12","Location","SouthWest")
+annotate!([(log10.(Nphie[i]),log10.(err1[i]), Plots.text("Gauss v3 feps=1e-12", 10,:blue, :center))],subplot=1)
+annotate!([(log10.(Nphie[i]),log10.(err2[i]), Plots.text("Gauss v3 feps=1e-12", 10,:blue, :center))],subplot=2)
+#legend("Euler", "Runge","Heun","RK4_1","RK4_2","gauss v2 feps=1.e-12","Location","SouthWest")
+=#
 display(plt)

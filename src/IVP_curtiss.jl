@@ -3,8 +3,6 @@ using LinearAlgebra
 
 include("phi_curtiss.jl")
 include("ode_euler_imp_v2.jl")
-include("ode_gauss_v2.jl")
-
 pyplot()
 #
 # ~gergaud/ENS/edo/Projet/ordre/IVP_curtiss.m
@@ -19,8 +17,8 @@ pyplot()
 # Intégration de l"equation differentiel de l"equation Curtiss et Hirschfelder
 # ref: Hairer page 3 tome 2; pb raide
 #
-
-#closeall();
+pyplot()
+closeall()
 y0=[0]
 t0=0
 tf=1.5
