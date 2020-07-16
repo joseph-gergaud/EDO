@@ -11,15 +11,15 @@ using LinearAlgebra
 
  Numerical integration by Gauss method of order 4
 
- function [T,Y,nphie,ifail]=ode_gauss(phi,t0tf,y0,options)
+ function [T,Y,nphie,ifail]=ode_gauss(phi,t0tf,y0,option)
  Input parameters
  ----------------
  phi = second member ypoint=phi[t,y]
  t0tf = [t0,tf]
  y0 = initial point
- options[1] = N = number of step
- options[2] = fpitermax = maximum number of iterations for the fixed point
- options[3] = fpeps = epsilon for the test of progress in the fixed point
+ option[1] = N = number of step
+ option[2] = fpitermax = maximum number of iterations for the fixed point
+ option[3] = fpeps = epsilon for the test of progress in the fixed point
 
  Output parameters
  -----------------
@@ -39,7 +39,7 @@ using LinearAlgebra
  k1 and k2 = k1 & k2 of the Runge-Kutta scheme
  delta1y
 """ 
-function odegauss(phi::Function,t0tf,y0,options)
+function odegauss(phi::Function,t0tf,y0,option)
 
     # Initialisation
     # --------------
@@ -51,16 +51,18 @@ function odegauss(phi::Function,t0tf,y0,options)
     #
     # Input variables
     t = t0tf[1]; tf = t0tf[2]
-    N = options[1]
-    fpitermax = options[2]
-    fpeps = options[3]
+    N = option[1]
+    fpitermax = option[2]
+    fpeps = option[3]
     # Output variables
     ifail = ones(N)
     k1 = []
     k2 = []
     nphie = 1
+    T = zeros(N + 1)
     T[1] = t
     y = y0[:]
+    T = zeros(N + 1,length(y))
     Y[1,:] = y'
     # Local variables
     h = (tf - t)/N

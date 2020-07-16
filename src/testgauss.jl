@@ -15,26 +15,29 @@ using LinearAlgebra
  ref: Hairer
 """
 
-include("ode_gauss_v2.jl")
 include("ode_gauss_v3.jl")
-include("phi_vdp.jl")
-include("d_phi_vdp.jl")
+include("ode_gauss_v2.jl")
+include("ode_gauss.jl")
+include("ode_euler.jl")
+include("ode_runge.jl")
+include("ode_rk41.jl")
+include("ode_rk42.jl")
+include("ode_heun.jl")
 include("plot_sol.jl")
+include("d_phi_vdp.jl")
+include("phi_vdp.jl")
 #rm("testgauss.txt")
 #diary("testgauss.txt")
 y0 = [2.008619860874843136; 0]
 t0 = 0
 tf = 6.663286859323130189
-N0 = [120:60:1080; 1200:600:10800] # multiple de 12 pour avoir des nombres entier si on divise par 4 ou 3
-N = N0
-N = 10
+N = 25
 #
 # Gauss point fixe
-N = 10
 options = zeros(3)
 options[1] = N
 options[2] = 15
-options[3] = 1e-6
+options[3] = 1e-12
 T,Y,nphie,ifail,KK = ode_gauss_v2(phi_vdp,[t0 tf],y0,options)
 #
 println("Point fixe")
@@ -43,9 +46,9 @@ println("----------")
 #println([T Y])
 #println(nphie)
 #println(ifail)
-I = findall(ifail==-1)
-ifail[I] .= options[2]
-
+#I = findall(ifail==-1)
+#ifail[I] .= options[2]
+closeall()
 pyplot()
 plt = Plots.plot(layout=(1,3))
 plot_sol(plt,T,Y,"red","Gauss v2,N="*string(N))
@@ -56,17 +59,37 @@ plot_sol(plt,T,Y,"red","Gauss v2,N="*string(N))
 T,Y,nphie,ndphie,ifail,KK = ode_gauss_v3(phi_vdp,d_phi_vdp,[t0 tf],y0,options)
 println("Newton")
 println("------")
-#println("[T Y]")
-#println([T Y])
-#println(nphie)
-#println(ndphie)
-#println(ifail)
-#println(KK)
+
+plot_sol(plt,T,Y,"darkorange","Newton,N="*string(N))
+
+T,Y = ode_euler(phi_vdp,[t0 tf],y0,N)
+println("Euler")
+println("------")
+plot_sol(plt,T,Y,"blue","Euler,N="*string(N))
+
+T,Y = ode_runge(phi_vdp,[t0 tf],y0,N)
+println("Runge")
+println("------")
+
+plot_sol(plt,T,Y,"black","Runge,N="*string(N))
+
+T,Y = ode_heun(phi_vdp,[t0 tf],y0,N)
+println("Heun")
+println("------")
+plot_sol(plt,T,Y,"magenta","Heun,N="*string(N))
+
+T,Y = ode_rk41(phi_vdp,[t0 tf],y0,N)
+println("RK41")
+println("------")
+plot_sol(plt,T,Y,"green","RK41,N="*string(N))
+
+T,Y = ode_rk42(phi_vdp,[t0 tf],y0,N)
+println("RK42")
+println("------")
+plot_sol(plt,T,Y,"cyan","RK42,N="*string(N))
+
+#N = 200
+#options[1] = N
 #
-
-plot_sol(plt,T,Y,"green","Gauss v3,N="*string(N))
-N = 200
-options[1] = N
-
-T,Y,nphie,ifail = ode_gauss_v2(phi_vdp,[t0 tf],y0,options)
-plot_sol(plt,T,Y,"blue","Gauss v2,N="*string(N))
+#T,Y,nphie,ifail = ode_gauss_v2(phi_vdp,[t0 tf],y0,options)
+#plot_sol(plt,T,Y,"blue","Gauss v2,N="*string(N))
