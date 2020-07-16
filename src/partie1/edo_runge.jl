@@ -12,7 +12,7 @@
 #
 #    Usage
 #
-#        T, X = ode_heun(f,t0tf,y0,N)
+#        T, X = ode_runge(f,t0tf,y0,N)
 #
 #    Inputs
 #        f    - function     : second member of the ode whith the interface 

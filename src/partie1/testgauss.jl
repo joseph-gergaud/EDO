@@ -48,7 +48,7 @@ ifail[I] .= options[2]
 
 pyplot()
 plt = Plots.plot(layout=(1,3))
-plot_sol(T,Y,"red",["y_1(t) v2,N="*string(N) ,"y_2(t) v2,N="*string(N),"y_2(y_1) v2,N="*string(N)])
+plot_sol(plt,T,Y,"red","Gauss v2,N="*string(N))
 
 # KK(:,cumsum(ifail+1))
 #
@@ -64,9 +64,9 @@ println("------")
 #println(KK)
 #
 
-plot_sol(T,Y,"green",["y_1(t) v3,N="*string(N),"y_2(t) v3,N="*string(N),"y_2(y_1) v3,N="*string(N)])
+plot_sol(plt,T,Y,"green","Gauss v3,N="*string(N))
 N = 200
 options[1] = N
 
 T,Y,nphie,ifail = ode_gauss_v2(phi_vdp,[t0 tf],y0,options)
-plot_sol(T,Y,"blue",["y_1(t) v2,N="*string(N),"y_2(t) v2,N="*string(N),"y_2(y_1) v2,N="*string(N)])
+plot_sol(plt,T,Y,"blue","Gauss v2,N="*string(N))
