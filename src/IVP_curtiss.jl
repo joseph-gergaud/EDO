@@ -3,6 +3,8 @@ using LinearAlgebra
 
 include("phi_curtiss.jl")
 include("ode_euler_imp_v2.jl")
+include("ode_gauss_v2.jl")
+
 pyplot()
 #
 # ~gergaud/ENS/edo/Projet/ordre/IVP_curtiss.m
@@ -62,7 +64,8 @@ end
 #hold on
 #figure(6)
 #hold on
-plt = Plots.plot(layout = (2,2))
+plt1 = Plots.plot(layout = (2,2))
+plt2 = Plots.plot(layout = (2,2))
 for i=1:length(N)
 	#
 	# Gauss
@@ -70,25 +73,26 @@ for i=1:length(N)
 	option[2] = 40
 	option[3] = 1e-6
 	option[1] = N[i]
-	#=
+	
 	T,Y,nphie,ifail=ode_gauss_v2(phi_curtiss,[t0 tf],y0,option)
-	ifail
-	subplot(2,2,i)
-	Plots.plot!(plt[i],T,Y,color:=red,LineWidth=2);
-	=#  
+	print(ifail)
+	print("\n")
+	Plots.plot!(plt1[i],T,Y,color=:red,LineWidth=2,title="Gauss");
+	
 	T,Y,nphie,ifail=ode_euler_imp_v2(phi_curtiss,[t0 tf],y0,option)
 	print(ifail)
 	print("\n")
 	#figure(6)
 	#subplot(2,2,i)
-	plot!(plt[i],T,Y,color=:green,LineWidth=2)
+	plot!(plt2[i],T,Y,color=:green,LineWidth=2,title="Euler implicite")
 	#figure(5)
 	#title("Gauss")
 	#figure(6)
 	#title("Euler implicite")
 	# print("-depsc",fich)
 end 
-display(plt)
+display(plt2)
+display(plt1)
 #=
 for i=1:6
 figure(i)
