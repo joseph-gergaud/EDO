@@ -12,7 +12,7 @@ Email:    gergaud@enseeiht.fr
 Programme d'integration par le schema d'Euler a pas fixe et constant
 
 """
-function un_pas(f::Function,t0tf,y0,N)
+function ode_euler_pf(f::Function,t0tf,y0,N)
     t0 = t0tf[1]
     tf = t0tf[2]
     y = y0
