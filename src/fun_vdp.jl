@@ -6,7 +6,7 @@ Deuxieme membre de l'equation differentiel de l'equation de Van der Pol
   - y = la valeur de y à cet instant
 
 # Outputs
-  - ypoint = ``\dot{y}_{1}(t)=y_{2}(t) \\ \dot{y}_{2}(t)=(1-y_{1}^{2}(t)) y_{2}(t)-y_{1}(t)`` 
+  - ypoint = ``\dot{y}_{1}(t)=y_{2}(t) , \dot{y}_{2}(t)=(1-y_{1}^{2}(t)) y_{2}(t)-y_{1}(t)`` 
 """
 function fun_vdp(t, y)
   
