@@ -1,5 +1,5 @@
 """
- ~gergaud/ENS/edo/Projet/ordre/phi_stiff.m
+ ~gergaud/ENS/edo/Projet/ordre/fun_stiff.m
 
  Auteurs:  Joseph GERGAUD
  Date:     december 2011
@@ -9,7 +9,7 @@
 ***************************************************************************
 
 """
-function phi_curtiss(t,y)
+function fun_curtiss(t,y)
 
     ypoint = -50 * y
     return ypoint

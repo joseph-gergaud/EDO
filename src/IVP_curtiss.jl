@@ -1,8 +1,8 @@
 using Plots
 using LinearAlgebra
 
-include("phi_curtiss.jl")
-include("phi_toto.jl")
+include("fun_curtiss.jl")
+include("fun_toto.jl")
 include("ode_euler_imp_v2.jl")
 include("ode_euler.jl")
 include("ode_runge.jl")
@@ -40,30 +40,30 @@ for i=1:length(N)
     pause("tapez Entrée pour voir les schémas (N = "*string(N[i])*" )")
     plt = Plots.plot(title="N = "*string(N[i]))
     # Euler
-    T,Y=ode_euler(phi_curtiss,[t0 tf],y0,N[i])
+    T,Y=ode_euler(fun_curtiss,[t0 tf],y0,N[i])
     Plots.plot!(T,Y,LineWidth=2,color=:blue, label = "Euler")
     
     # Runge
-    T,Y=ode_runge(phi_curtiss,[t0 tf],y0,N[i])
+    T,Y=ode_runge(fun_curtiss,[t0 tf],y0,N[i])
     Plots.plot!(T,Y,LineWidth = 2,color =:black,label = "Runge")
 
     #    
     # Heun
-    T,Y=ode_heun(phi_curtiss,[t0 tf],y0,N[i])
+    T,Y=ode_heun(fun_curtiss,[t0 tf],y0,N[i])
     Plots.plot!(T,Y,LineWidth = 2,color=:yellow,label = "Heun")
 
     # RK4 classique
-    T,Y=ode_rk41(phi_curtiss,[t0 tf],y0,N[i])
+    T,Y=ode_rk41(fun_curtiss,[t0 tf],y0,N[i])
     Plots.plot!(T,Y,LineWidth=2,label = "RK41")
 
     # RK4 regle 3/8
-    T,Y=ode_rk42(phi_curtiss,[t0 tf],y0,N[i])
+    T,Y=ode_rk42(fun_curtiss,[t0 tf],y0,N[i])
     Plots.plot!(T,Y,LineWidth = 2,label = "RK42" )
     # Gauss
     option[2] = 40
     option[3] = 1e-6
     option[1] = N[i]
-    T,Y,nphie,ifail=ode_gauss_v2(phi_curtiss,[t0 tf],y0,option)
+    T,Y,nphie,ifail=ode_gauss_v2(fun_curtiss,[t0 tf],y0,option)
     print(ifail)
     print("\n")
     Plots.plot!(T,Y,LineWidth = 2,color=:red,xlabel = "t",ylabel = "y(t)" , label = "Gauss")
@@ -87,12 +87,12 @@ for i=1:length(N)
 	option[3] = 1e-6
 	option[1] = N[i]
 	
-	T,Y,nphie,ifail=ode_gauss_v2(phi_curtiss,[t0 tf],y0,option)
+	T,Y,nphie,ifail=ode_gauss_v2(fun_curtiss,[t0 tf],y0,option)
 	print(ifail)
 	print("\n")
 	Plots.plot!(plt1[i],T,Y,color=:red,LineWidth=2,label="N = "*string(N[i]))
 	
-	T,Y,nphie,ifail=ode_euler_imp_v2(phi_curtiss,[t0 tf],y0,option)
+	T,Y,nphie,ifail=ode_euler_imp_v2(fun_curtiss,[t0 tf],y0,option)
 	print(ifail)
 	print("\n")
 	#figure(6)

@@ -1,9 +1,10 @@
-using PyPlot
+using Plots
 
-include("phi_toto.jl")
-include("euler.jl")
+include("fun_toto.jl")
+include("ode_euler.jl")
+include("plot_sol.jl")
 #
-# ~gergaud/ENS/Control/ODE/Matlab/IVP_toto.m
+# ~gergaud/ENS/Control/ODE/Matlab/IVP_toto.jl
 #
 # Auteurs:  Joseph GERGAUD
 # Date:     nov. 2005
@@ -15,8 +16,10 @@ include("euler.jl")
 # Intégration de l"equation differentiel de l"equation de Van der Pol
 # ref: Hairer
 #
-y0=[2.008619860874843136;  0]
-t0=0
-tf=6.663286859323130189
-T,Y = ode_euler(phi_toto,[t0 tf],y0,5)
+y0 = [2.008619860874843136;  0]
+t0 = 0
+tf = 6.663286859323130189
+T,Y = ode_euler(fun_toto,[t0 tf],y0,5)
+plt = Plots.plot(layout=(1,3))
+plot_sol(plt,T,Y,"olive","euler")
 plot(T*ones(1,2),Y)

@@ -11,7 +11,7 @@
 # deuxieme membre de l'equation differentiel de l'equation de Van der Pol
   # ref: Hairer
 #
-function phi_toto(f,t)
+function fun_toto(f,t)
     ypoint=[0; 1]     
     return ypoint
 end

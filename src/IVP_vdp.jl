@@ -146,7 +146,6 @@ annotate!([(log10.(N[i]),log10.(err2[i]), Plots.text("Euler", 10,:center))],subp
 #text(log10.(N[i]),log10.(err2[i] ) ,"Euler") 
 #
 # Runge
-#clear T Y err1 err2
 s = 2
 N = N0/s
 err1 = zeros(length(N))
@@ -165,7 +164,6 @@ i = rand(1:length(N))
 annotate!([(log10.(s*N[i]),log10.(err1[i]), Plots.text("Runge", 10,:olive, :center))],subplot=1)
 annotate!([(log10.(s*N[i]),log10.(err2[i]), Plots.text("Runge", 10,:olive, :center))],subplot=2)
 # Heun
-#clear T Y err1 err2
 s = 3
 N = N0/s
 err1 = zeros(length(N))
@@ -185,7 +183,6 @@ annotate!([(log10.(s*N[i]),log10.(err1[i]), Plots.text("Heun", 10,:magenta, :cen
 annotate!([(log10.(s*N[i]),log10.(err2[i]), Plots.text("Heun", 10,:magenta, :center))],subplot=2)
 
 # RK4 classique
-##clear T Y err1 err2
 s = 4
 N = N0/s
 err1 = zeros(length(N))
@@ -304,7 +301,6 @@ annotate!([(log10.(Nphie[i]),log10.(err1[i]), Plots.text("Gauss v2 feps=1e-6", 1
 annotate!([(log10.(Nphie[i]),log10.(err2[i]), Plots.text("Gauss v2 feps=1e-6", 10,:center))],subplot=2)
 #
 # Gauss fpitermax=2
-#clear T Y err1 err2
 Nphie = []
 s = 4
 N = N0/s
