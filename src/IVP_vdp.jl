@@ -102,7 +102,7 @@ println("[T Y]=")
 display("text/plain",[T Y])
 display(nphie)
 display(ifail')
-plot_sol(plt,T,Y,"red","gauss_v2")
+plot_sol(plt,T,Y,"red","gauss_pf")
 
 println("Gauss, Newton")
 println("-------------")
@@ -256,23 +256,23 @@ end
 #print -depsc fig_ordre_Gauss1
 # vraie courbe
 # ------------
-Plots.plot!(log10.(Nphie),log10.(err1),color="red",xlabel="log_{10}(fe)",ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss")
-Plots.plot!(log10.(Nphie), log10.(err2),color= "red", xlabel="log_{10}(nphi)", ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss")
+Plots.plot!(log10.(Nphie),log10.(err1),color="red",xlabel="log_{10}(fe)",ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss pf")
+Plots.plot!(log10.(Nphie), log10.(err2),color= "red", xlabel="log_{10}(nphi)", ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss pf")
 i = rand(1:length(N))
-annotate!([(log10.(Nphie[i]),log10.(err1[i]), Plots.text("Gauss", 10,:red, :center))],subplot=1)
-annotate!([(log10.(Nphie[i]),log10.(err2[i]), Plots.text("Gauss", 10,:red, :center))],subplot=2)
-##legend("Euler", "Runge","Heun","RK4_1","RK4_2","gauss v2 feps=1.e-12","Location","SouthWest")
+annotate!([(log10.(Nphie[i]),log10.(err1[i]), Plots.text("Gauss pf", 10,:red, :center))],subplot=1)
+annotate!([(log10.(Nphie[i]),log10.(err2[i]), Plots.text("Gauss pf", 10,:red, :center))],subplot=2)
+##legend("Euler", "Runge","Heun","RK4_1","RK4_2","gauss pf feps=1.e-12","Location","SouthWest")
 #print -depsc fig_ordre_Gauss2
 display(plt)
 pause("tapez entrée pour voir les vraies Courbes")
 plt = Plots.plot(layout=(1,2))
 # vraie courbe
 # ------------
-Plots.plot!(log10.(Nphie),log10.(err1),color="red", xlabel="log_{10}(fe)", ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss v2 feps=1e-12")
-Plots.plot!(log10.(Nphie),log10.(err2),color="red", xlabel="log_{10}(fe)", ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss v2 feps=1e-12")
+Plots.plot!(log10.(Nphie),log10.(err1),color="red", xlabel="log_{10}(fe)", ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss pf feps=1e-12")
+Plots.plot!(log10.(Nphie),log10.(err2),color="red", xlabel="log_{10}(fe)", ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss pf feps=1e-12")
 i = rand(1:length(N))
-annotate!([(log10.(Nphie[i]),log10.(err1[i]), Plots.text("Gauss v2 feps=1e-12", 10,:red, :center))],subplot=1)
-annotate!([(log10.(Nphie[i]),log10.(err2[i]), Plots.text("Gauss v2 feps=1e-12", 10,:red, :center))],subplot=2)
+annotate!([(log10.(Nphie[i]),log10.(err1[i]), Plots.text("Gauss pf feps=1e-12", 10,:red, :center))],subplot=1)
+annotate!([(log10.(Nphie[i]),log10.(err2[i]), Plots.text("Gauss pf feps=1e-12", 10,:red, :center))],subplot=2)
 #
 # Gauss feps=1.e-6
 Nphie = []
@@ -300,11 +300,11 @@ end
 # 
 # vraie courbe
 # ------------
-Plots.plot!(log10.(Nphie),log10.(err1), xlabel="log_{10}(fe)", ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss v2 feps=1e-6")
-Plots.plot!(log10.(Nphie),log10.(err2), xlabel="log_{10}(fe)", ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss v2 feps=1e-6")
+Plots.plot!(log10.(Nphie),log10.(err1), xlabel="log_{10}(fe)", ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss pf feps=1e-6")
+Plots.plot!(log10.(Nphie),log10.(err2), xlabel="log_{10}(fe)", ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss pf feps=1e-6")
 i = rand(1:length(N))
-annotate!([(log10.(Nphie[i]),log10.(err1[i]), Plots.text("Gauss v2 feps=1e-6", 10,:center))],subplot=1)
-annotate!([(log10.(Nphie[i]),log10.(err2[i]), Plots.text("Gauss v2 feps=1e-6", 10,:center))],subplot=2)
+annotate!([(log10.(Nphie[i]),log10.(err1[i]), Plots.text("Gauss pf feps=1e-6", 10,:center))],subplot=1)
+annotate!([(log10.(Nphie[i]),log10.(err2[i]), Plots.text("Gauss pf feps=1e-6", 10,:center))],subplot=2)
 #
 # Gauss fpitermax=2
 Nphie = []
@@ -331,12 +331,12 @@ for i=1:length(N)
 end
 # vraie courbe
 # ------------
-Plots.plot!(log10.(Nphie),log10.(err1),color="green",xlabel="log_{10}(nphie)", ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss v2 fpitermax=2")
-Plots.plot!(log10.(Nphie),log10.(err2),color="green",xlabel="log_{10}(fnphi)", ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss v2 fpitermax=2")
+Plots.plot!(log10.(Nphie),log10.(err1),color="green",xlabel="log_{10}(nphie)", ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss pf fpitermax=2")
+Plots.plot!(log10.(Nphie),log10.(err2),color="green",xlabel="log_{10}(fnphi)", ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss pf fpitermax=2")
 i = rand(1:length(N))
-annotate!([(log10.(Nphie[i]),log10.(err1[i]), Plots.text("Gauss v2 fpitermax=2", 10,:green, :center))],subplot=1)
-annotate!([(log10.(Nphie[i]),log10.(err2[i]), Plots.text("Gauss v2 fpitermax=2", 10,:green, :center))],subplot=2)
-#legend("gauss v2 feps=1.e-12","gauss v2 feps=1.e-6","gauss v2 fpitermax=2","Location","SouthWest")
+annotate!([(log10.(Nphie[i]),log10.(err1[i]), Plots.text("Gauss pf fpitermax=2", 10,:green, :center))],subplot=1)
+annotate!([(log10.(Nphie[i]),log10.(err2[i]), Plots.text("Gauss pf fpitermax=2", 10,:green, :center))],subplot=2)
+#legend("gauss pf feps=1.e-12","gauss pf feps=1.e-6","gauss pf fpitermax=2","Location","SouthWest")
 #print -depsc fig_ordre_Gauss3
 #
 # Gauss + Newton
@@ -368,11 +368,11 @@ end
 
 # vraie courbe
 # ------------
-Plots.plot!(log10.(Nphie),log10.(err1),color="blue",ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss v3 feps=1e-12")
-Plots.plot!(log10.(Nphie),log10.(err2),color="blue",ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss v3 feps=1e-12")
+Plots.plot!(log10.(Nphie),log10.(err1),color="blue",ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss Newton feps=1e-12")
+Plots.plot!(log10.(Nphie),log10.(err2),color="blue",ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss Newton feps=1e-12")
 i = rand(1:length(N))
-annotate!([(log10.(Nphie[i]),log10.(err1[i]), Plots.text("Gauss v3 feps=1e-12", 10,:blue, :center))],subplot=1)
-annotate!([(log10.(Nphie[i]),log10.(err2[i]), Plots.text("Gauss v3 feps=1e-12", 10,:blue, :center))],subplot=2)
-#legend("Euler", "Runge","Heun","RK4_1","RK4_2","gauss v2 feps=1.e-12","Location","SouthWest")
+annotate!([(log10.(Nphie[i]),log10.(err1[i]), Plots.text("Gauss Newton feps=1e-12", 10,:blue, :center))],subplot=1)
+annotate!([(log10.(Nphie[i]),log10.(err2[i]), Plots.text("Gauss Newton feps=1e-12", 10,:blue, :center))],subplot=2)
+#legend("Euler", "Runge","Heun","RK4_1","RK4_2","gauss pf feps=1.e-12","Location","SouthWest")
 =#
 display(plt)
