@@ -9,7 +9,8 @@ makedocs(
     pages = [
             "Accueil" => "index.md",
             "Sujet TP ordre "=>"sujet_ordre.md",
-            "Résultats TP Ordre "=>"resultats_sujet_ordre.md"
+            "Résultats TP Ordre "=>"resultats_sujet_ordre.md",
+            "Index des fonctions"=>"fct_index.md"
             ]
     )
 

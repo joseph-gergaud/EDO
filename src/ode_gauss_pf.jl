@@ -1,43 +1,25 @@
 using LinearAlgebra
 """
-~gergaud/ENS/edo/Matlab/ordre_un_pas/odegauss.m
-
-Auteurs:  Joseph GERGAUD
-Date:     mars 2008
-Adresse:  INP-ENSEEIHT-IRIT-UMR CNRS 5055
-          2, rue Camichel 31071 Toulouse FRANCE
-Email:    gergaud@enseeiht.fr
-**************************************************************************
-
 Numerical integration by Gauss method of order 4
 
-function [T,Y,nphie,ifail,KK]=ode_gauss_v2(phi,t0tf,y0,options)
-Input parameters
-----------------
-phi = second member ypoint=phi(t,y)
-t0tf = [t0,tf]
-y0 = initial point
-options(1) = N = number of step
-options(2) = fpitermax = maximum number of iterations for the fixed point
-options(3) = fpeps = epsilon for the test of progress in the fixed point
+# Usage 
+    - [T,Y,nphie,ifail,KK]=ode_gauss_pf(phi,t0tf,y0,options)
 
-Output parameters
------------------
-T = vector of time
-Y = Matrix of solution
-The line i of [T Y] contains ti and y(ti)
-ifail(i) = 1 = computation successful for the fixed point on [t_i,t_{i+1}] 
-ifail(i) = -1 = computation failed for the fixed point on [t_i,t_{i+1}]: maximum number of iteration
-is attained in the fixed point
-nphie = number of evaluation of phi
+# Input parameters
+    - phi = second member ypoint=phi(t,y)
+    - t0tf = [t0,tf]
+    - y0 = initial point
+    - options(1) = N = number of step
+    - options(2) = fpitermax = maximum number of iterations for the fixed point
+    - options(3) = fpeps = epsilon for the test of progress in the fixed point
 
-Local variables
----------------
-c1, c2, a11, a12, a21, a22, b1 and b2 = coefficient of Butcher array
-N = number of steps
-h = constant step
-k1 and k2 = k1 and k2 of the Runge-Kutta scheme
-delta1y
+# Output parameters
+    - T = vector of time
+    - Y = Matrix of solution, The line i of [T Y] contains ti and y(ti)
+    - ifail(i) = 1 = computation successful for the fixed point on [t_i,t_{i+1}] 
+    - ifail(i) = -1 = computation failed for the fixed point on [t_i,t_{i+1}]: maximum number of iteration is attained in the fixed point
+    - nphie = number of evaluation of phi
+
 """
 function ode_gauss_pf(phi::Function, t0tf, y0, options)
 
@@ -98,4 +80,3 @@ function ode_gauss_pf(phi::Function, t0tf, y0, options)
     end 
     return T, Y, nphie, ifail
 end
-

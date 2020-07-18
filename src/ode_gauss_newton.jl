@@ -1,44 +1,25 @@
 using LinearAlgebra
 """
- ~gergaud/ENS/edo/Projets/ordre/ode_gauss_3.m
+Numerical integration by Gauss method of order 4,The solution on the non linear equation is computed by Newton method
 
- Auteurs:  Joseph GERGAUD
- Date:     december 2011
- Adresse:  INP-ENSEEIHT-IRIT-UMR CNRS 5055
-           2, rue Camichel 31071 Toulouse FRANCE
- Email:    gergaud@enseeiht.fr
-***************************************************************************
+# Usage
+    - T,Y,nphie,ndphie,ifail=ode_gauss_newton(phi,dphi,t0tf,y0,options)
 
- Numerical integration by Gauss method of order 4
- The solution on the non linear equation is computed by Newton method
+# Input parameters
+    - phi = second member ypoint=phi(t,y)
+    - t0tf = [t0,tf]
+    - y0 = initial point
+    - options[1] = N = number of step
+    - options[2] = fpitermax = maximum number of iterations for the fixed point
+    - options[3] = fpeps = epsilon for the test of progress in the fixed point
 
- function [T,Y,nphie,ndphie,ifail,KK]=ode_gauss_v3(phi,dphi,t0tf,y0,options)
- Input parameters
- ----------------
- phi = second member ypoint=phi(t,y)
- t0tf = [t0,tf]
- y0 = initial point
- options(1) = N = number of step
- options(2) = fpitermax = maximum number of iterations for the fixed point
- options(3) = fpeps = epsilon for the test of progress in the fixed point
+# Output parameters
+    - T = vector of times
+    - Y = Matrix of solution, The line i of [T Y] contains ti and y(ti)
+    - ifail[i] = 1 = computation successful for the fixed point on [t_i,t_{i+1}] 
+    - ifail[i] = -1 = computation failed for the fixed point on [t_i,t_{i+1}]: maximum number of iteration is attained in the fixed point
+    - nphie = number of evaluation of phi
 
- Output parameters
- -----------------
- T = vector of time
- Y = Matrix of solution
- The line i of [T Y] contains ti and y(ti)
- ifail(i) = 1 = computation successful for the fixed point on [t_i,t_{i+1}] 
- ifail(i) = -1 = computation failed for the fixed point on [t_i,t_{i+1}]: maximum number of iteration
- is attained in the fixed point
- nphie = number of evaluation of phi
-
- Local variables
- ---------------
- c1, c2, a11, a12, a21, a22, b1 and b2 = coefficient of Butcher array
- N = number of steps
- h = constant step
- k1 and k2 = k1 and k2 of the Runge-Kutta scheme
- delta1y
 """
 function ode_gauss_newton(phi::Function,dphi::Function,t0tf,y0,options)
 
@@ -80,9 +61,9 @@ function ode_gauss_newton(phi::Function,dphi::Function,t0tf,y0,options)
         t1 = t + c1*h
         t2 = t + c2*h
         K = [phi(t1,y) ;phi(t2,y)]
+        nphie = nphie + 2
         k1 = K[1:n]
         k2 = K[n+1:2*n]
-        nphie = nphie + 2
         normprog = 1 
         nbiter = 0
         while (normprog > fpeps) & (nbiter <= fpitermax)     # Newton
@@ -90,8 +71,8 @@ function ode_gauss_newton(phi::Function,dphi::Function,t0tf,y0,options)
             g2 = y + h * (a21*k1 + a22*k2)
             phik1 = phi(t1,g1)
             phik2 = phi(t2,g2)
-            FK0 = [k1-phik1 ; k2-phik2]
             nphie = nphie + 2
+            FK0 = [k1-phik1 ; k2-phik2]
             d_phik1 = dphi(t1,g1)
             d_phik2 = dphi(t2,g2)
             ndphie = ndphie + 2
@@ -101,7 +82,7 @@ function ode_gauss_newton(phi::Function,dphi::Function,t0tf,y0,options)
             K = K + deltaK
             k1 = K[1:n] 
             k2 = K[n+1:2*n]
-            nbiter = nbiter + 1        
+            nbiter = nbiter + 1
         end 
 
         # si la solution est trouvée
@@ -116,4 +97,3 @@ function ode_gauss_newton(phi::Function,dphi::Function,t0tf,y0,options)
     end
     return T,Y,nphie,ndphie,ifail
 end
-

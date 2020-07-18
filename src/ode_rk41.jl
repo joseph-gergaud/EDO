@@ -1,35 +1,27 @@
-#=========================================================================================
-#
-#    Heun method 
-#
-#    Description
-#
-#        Numerical integration of the CauchX[i-1,:]'s problem
-#        x_point(t) = f(t,x(t))
-#        x(t_0) = x_0
-#
-#-------------------------------------------------------------------------------------------
-#
-#    Usage
-#
-#        T, X = ode_rk4(f,t0tf,X[i-1,:]0,N)
-#
-#    Inputs
-#        f    - function     : second member of the ode whith the interface 
-#                              xpoint = f(t, x)
-#                                  t    - real     : time,
-#                                  x = vector of R^n with the same dimension of x0
-#        t0tf - real(2)      : intial and final time  [t0,tf]
-#        x0   - real(n)      : initial point
-#        N    - integer      : number of steps (>1)
-#
-#    Outputs
-#        T    - real(N+1,1)  : vector of times
-#        X    - real(N+1,n)  : Matrix of solution
-#        The line i of [T Y] contains ti and x_i
-#
-=###############################################################################################
+"""
+Heun method 
 
+# Description
+    Numerical integration of the CauchX[i-1,:]'s problem
+    x_point(t) = phi(t,x(t))
+    x(t_0) = x_0
+
+# Usage
+    T, X = ode_rk4(phi,t0tf,X[i-1,:]0,N)
+
+# Inputs
+    f    - function     : second member of the ode whith the interface 
+                          xpoint = phi(t, x)
+                              t    - real     : time,
+                              x = vector of R^n with the same dimension of x0
+    t0tf - real(2)      : intial and final time  [t0,tf]
+    x0   - real(n)      : initial point
+    N    - integer      : number of steps (>1)
+    
+# Outputs
+    T    - real(N+1,1)  : vector of times
+    X    - real(N+1,n)  : Matrix of solution, The line i of [T Y] contains ti and x_i
+"""
 function ode_rk41(phi::Function,t0tf,x0,N)
 
     N = Int(N)

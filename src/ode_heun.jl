@@ -1,36 +1,28 @@
-#=========================================================================================
-#
-#    Heun method 
-#
-#    Description
-#
-#        Numerical integration of the Cauchy's problem
-#        x_point(t) = f(t,x(t))
-#        x(t_0) = x_0
-#
-#-------------------------------------------------------------------------------------------
-#
-#    Usage
-#
-#        T, X = ode_heun(f,t0tf,y0,N)
-#
-#    Inputs
-#        f    - function     : second member of the ode whith the interface 
-#                              xpoint = f(t, x)
-#                                  t    - real     : time,
-#                                  x = vector of R^n with the same dimension of x0
-#        t0tf - real(2)      : intial and final time  [t0,tf]
-#        x0   - real(n)      : initial point
-#        N    - integer      : number of steps (>1)
-#
-#    Outputs
-#        T    - real(N+1,1)  : vector of times
-#        X    - real(N+1,n)  : Matrix of solution
-#        The line i of [T Y] contains ti and x_i
-#
-=###############################################################################################
+"""
+Heun method 
 
+# Description
+    Numerical integration of the Cauchy's problem
+    x_point(t) = f(t,x(t))
+    x(t_0) = x_0
 
+# Usage
+    T, X = ode_heun(f,t0tf,y0,N)
+    
+# Inputs
+    f    - function     : second member of the ode whith the interface 
+                          xpoint = f(t, x)
+                              t    - real     : time,
+                              x = vector of R^n with the same dimension of x0
+    t0tf - real(2)      : intial and final time  [t0,tf]
+    x0   - real(n)      : initial point
+    N    - integer      : number of steps (>1)
+
+# Outputs
+    T    - real(N+1,1)  : vector of times
+    X    - real(N+1,n)  : Matrix of solution
+    The line i of [T Y] contains ti and x_i
+"""
 function  ode_heun(phi::Function,t0tf,x0,N)
  
     N = Int(N)

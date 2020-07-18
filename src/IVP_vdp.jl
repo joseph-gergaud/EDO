@@ -1,21 +1,8 @@
 using Plots
 using LinearAlgebra
 """
-~gergaud/ENS/Control/ODE/Matlab/IVP_vdp.m
-
-Auteurs:  Joseph GERGAUD
-Date:     nov. 2005
-Adresse:  INP-ENSEEIHT-IRIT-UMR CNRS 5055
-        2, rue Camichel 31071 Toulouse FRANCE
-Email:    gergaudenseeiht.fr
-***************************************************************************
-
-Int�gration de l'equation differentiel de l'equation de Van der Pol
+Intégration de l'equation differentiel de l'equation de Van der Pol
 ref: Hairer
-
-
-Initialisations
----------------
 """ 
 
 include("ode_gauss_newton.jl")
@@ -97,10 +84,10 @@ options[2] = 15
 options[3] = 1e-6
 println("[N, nb_itmax, f_eps]")
 display("text/plain",options)
-T,Y,nphie,ifail = ode_gauss_pf(fun_vdp,[t0 tf],y0,options)
+T,Y,nfe,ifail = ode_gauss_pf(fun_vdp,[t0 tf],y0,options)
 println("[T Y]=")
 display("text/plain",[T Y])
-display(nphie)
+display(nfe)
 display(ifail')
 plot_sol(plt,T,Y,"red","gauss_pf")
 
@@ -108,11 +95,11 @@ println("Gauss, Newton")
 println("-------------")
 println("[N, nb_itmax, f_eps]")
 display("text/plain",options')
-T,Y,nphie,ndphie,ifail = ode_gauss_newton(fun_vdp,d_fun_vdp,[t0 tf],y0,options)
+T,Y,nfe,ndphie,ifail = ode_gauss_newton(fun_vdp,d_fun_vdp,[t0 tf],y0,options)
 println("[T Y]=")
 display("text/plain",[T Y])
-println("nphie=")
-display("text/plain",nphie)
+println("nfe=")
+display("text/plain",nfe)
 println("ndphie=")
 display("text/plain",ndphie)
 println("ifail=")
@@ -230,7 +217,7 @@ annotate!([(log10.(s*N[i]),log10.(err2[i]), Plots.text("RK42", 10,:cyan, :center
 #
 # Gauss + point fixe
 # -----
-Nphie = []
+Nfe = []
 s=4
 N=N0/s
 # options[2] = nbre max iteration point fixe
@@ -241,26 +228,26 @@ options[3] = 1e-12
 Ifail = []
 err1 = zeros(length(N))
 err2 = zeros(length(N))
-Nphie = zeros(length(N))
+Nfe = zeros(length(N))
 Ifail = zeros(length(N))
 for i=1:length(N)
     options[1] = N[i]
-    T,Y,nphie,ifail = ode_gauss_pf(fun_vdp,[t0 tf],y0,options)    
+    T,Y,nfe,ifail = ode_gauss_pf(fun_vdp,[t0 tf],y0,options)    
     Ifail[i] = length(findall(ifail==-1)) 
     n = length(T)
     err1[i] = abs(y0[1]-Y[n,1])
     err2[i] = abs(y0[2]-Y[n,2])
-    Nphie[i] = nphie
+    Nfe[i] = nfe
 end
 
 #print -depsc fig_ordre_Gauss1
 # vraie courbe
 # ------------
-Plots.plot!(log10.(Nphie),log10.(err1),color="red",xlabel="log_{10}(fe)",ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss pf")
-Plots.plot!(log10.(Nphie), log10.(err2),color= "red", xlabel="log_{10}(nphi)", ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss pf")
+Plots.plot!(log10.(Nfe),log10.(err1),color="red",xlabel="log_{10}(fe)",ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss pf")
+Plots.plot!(log10.(Nfe), log10.(err2),color= "red", xlabel="log_{10}(nphi)", ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss pf")
 i = rand(1:length(N))
-annotate!([(log10.(Nphie[i]),log10.(err1[i]), Plots.text("Gauss pf", 10,:red, :center))],subplot=1)
-annotate!([(log10.(Nphie[i]),log10.(err2[i]), Plots.text("Gauss pf", 10,:red, :center))],subplot=2)
+annotate!([(log10.(Nfe[i]),log10.(err1[i]), Plots.text("Gauss pf", 10,:red, :center))],subplot=1)
+annotate!([(log10.(Nfe[i]),log10.(err2[i]), Plots.text("Gauss pf", 10,:red, :center))],subplot=2)
 ##legend("Euler", "Runge","Heun","RK4_1","RK4_2","gauss pf feps=1.e-12","Location","SouthWest")
 #print -depsc fig_ordre_Gauss2
 display(plt)
@@ -268,14 +255,14 @@ pause("tapez entrée pour voir les vraies Courbes")
 plt = Plots.plot(layout=(1,2))
 # vraie courbe
 # ------------
-Plots.plot!(log10.(Nphie),log10.(err1),color="red", xlabel="log_{10}(fe)", ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss pf feps=1e-12")
-Plots.plot!(log10.(Nphie),log10.(err2),color="red", xlabel="log_{10}(fe)", ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss pf feps=1e-12")
+Plots.plot!(log10.(Nfe),log10.(err1),color="red", xlabel="log_{10}(fe)", ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss pf feps=1e-12")
+Plots.plot!(log10.(Nfe),log10.(err2),color="red", xlabel="log_{10}(fe)", ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss pf feps=1e-12")
 i = rand(1:length(N))
-annotate!([(log10.(Nphie[i]),log10.(err1[i]), Plots.text("Gauss pf feps=1e-12", 10,:red, :center))],subplot=1)
-annotate!([(log10.(Nphie[i]),log10.(err2[i]), Plots.text("Gauss pf feps=1e-12", 10,:red, :center))],subplot=2)
+annotate!([(log10.(Nfe[i]),log10.(err1[i]), Plots.text("Gauss pf feps=1e-12", 10,:red, :center))],subplot=1)
+annotate!([(log10.(Nfe[i]),log10.(err2[i]), Plots.text("Gauss pf feps=1e-12", 10,:red, :center))],subplot=2)
 #
 # Gauss feps=1.e-6
-Nphie = []
+Nfe = []
 s = 4
 N = N0/s
 # options[2] = nbre max iteration point fixe
@@ -286,28 +273,28 @@ options[3] = 1e-6
 Ifail = []
 err1 = zeros(length(N))
 err2 = zeros(length(N))
-Nphie = zeros(length(N))
+Nfe = zeros(length(N))
 Ifail = zeros(length(N))
 for i=1:length(N)
     options[1] = N[i]
-    T,Y,nphie,ifail = ode_gauss_pf(fun_vdp,[t0 tf],y0,options)    
+    T,Y,nfe,ifail = ode_gauss_pf(fun_vdp,[t0 tf],y0,options)    
     Ifail[i] = length(findall(ifail==-1)) 
     n = length(T)
     err1[i] = abs(y0[1]-Y[n,1])
     err2[i] = abs(y0[2]-Y[n,2])
-    Nphie[i] = nphie
+    Nfe[i] = nfe
 end
 # 
 # vraie courbe
 # ------------
-Plots.plot!(log10.(Nphie),log10.(err1), xlabel="log_{10}(fe)", ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss pf feps=1e-6")
-Plots.plot!(log10.(Nphie),log10.(err2), xlabel="log_{10}(fe)", ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss pf feps=1e-6")
+Plots.plot!(log10.(Nfe),log10.(err1), xlabel="log_{10}(fe)", ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss pf feps=1e-6")
+Plots.plot!(log10.(Nfe),log10.(err2), xlabel="log_{10}(fe)", ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss pf feps=1e-6")
 i = rand(1:length(N))
-annotate!([(log10.(Nphie[i]),log10.(err1[i]), Plots.text("Gauss pf feps=1e-6", 10,:center))],subplot=1)
-annotate!([(log10.(Nphie[i]),log10.(err2[i]), Plots.text("Gauss pf feps=1e-6", 10,:center))],subplot=2)
+annotate!([(log10.(Nfe[i]),log10.(err1[i]), Plots.text("Gauss pf feps=1e-6", 10,:center))],subplot=1)
+annotate!([(log10.(Nfe[i]),log10.(err2[i]), Plots.text("Gauss pf feps=1e-6", 10,:center))],subplot=2)
 #
 # Gauss fpitermax=2
-Nphie = []
+Nfe = []
 s = 4
 N = N0/s
 # options[2] = nbre max iteration point fixe
@@ -318,31 +305,31 @@ options[3] = 1e-12
 Ifail = []
 err1 = zeros(length(N))
 err2 = zeros(length(N))
-Nphie = zeros(length(N))
+Nfe = zeros(length(N))
 Ifail = zeros(length(N))
 for i=1:length(N)
     options[1] = N[i]
-    T,Y,nphie,ifail = ode_gauss_pf(fun_vdp,[t0 tf],y0,options)    
+    T,Y,nfe,ifail = ode_gauss_pf(fun_vdp,[t0 tf],y0,options)    
     Ifail[i] = length(findall(ifail==-1)) 
     n = length(T)
     err1[i] = abs(y0[1]-Y[n,1])
     err2[i] = abs(y0[2]-Y[n,2])
-    Nphie[i] = nphie
+    Nfe[i] = nfe
 end
 # vraie courbe
 # ------------
-Plots.plot!(log10.(Nphie),log10.(err1),color="green",xlabel="log_{10}(nphie)", ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss pf fpitermax=2")
-Plots.plot!(log10.(Nphie),log10.(err2),color="green",xlabel="log_{10}(fnphi)", ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss pf fpitermax=2")
+Plots.plot!(log10.(Nfe),log10.(err1),color="green",xlabel="log_{10}(nfe)", ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss pf fpitermax=2")
+Plots.plot!(log10.(Nfe),log10.(err2),color="green",xlabel="log_{10}(fnphi)", ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss pf fpitermax=2")
 i = rand(1:length(N))
-annotate!([(log10.(Nphie[i]),log10.(err1[i]), Plots.text("Gauss pf fpitermax=2", 10,:green, :center))],subplot=1)
-annotate!([(log10.(Nphie[i]),log10.(err2[i]), Plots.text("Gauss pf fpitermax=2", 10,:green, :center))],subplot=2)
+annotate!([(log10.(Nfe[i]),log10.(err1[i]), Plots.text("Gauss pf fpitermax=2", 10,:green, :center))],subplot=1)
+annotate!([(log10.(Nfe[i]),log10.(err2[i]), Plots.text("Gauss pf fpitermax=2", 10,:green, :center))],subplot=2)
 #legend("gauss pf feps=1.e-12","gauss pf feps=1.e-6","gauss pf fpitermax=2","Location","SouthWest")
 #print -depsc fig_ordre_Gauss3
 #
 # Gauss + Newton
 # ---------------
 #=
-Nphie = []
+Nfe = []
 s = 2
 N = N0/(2*s)
 # options[2] = nbre max iteration point fixe
@@ -354,25 +341,25 @@ options[3] = 1e-12
 Ifail = []
 err1 = zeros(length(N))
 err2 = zeros(length(N))
-Nphie = zeros(length(N))
+Nfe = zeros(length(N))
 Ifail = zeros(length(N))
 for i=1:length(N)
     options[1] = N[i]
-    T,Y,nphie,ndphie,ifail = ode_gauss_newton(fun_vdp,d_fun_vdp,[t0 tf],y0,options)    
+    T,Y,nfe,ndphie,ifail = ode_gauss_newton(fun_vdp,d_fun_vdp,[t0 tf],y0,options)    
     Ifail[i] = length(findall(ifail==-1)) 
     n = length(T)
     err1[i] = abs(y0[1]-Y[n,1])
     err2[i] = abs(y0[2]-Y[n,2])
-    Nphie[i] = nphie + n * ndphie
+    Nfe[i] = nfe + n * ndphie
 end
 
 # vraie courbe
 # ------------
-Plots.plot!(log10.(Nphie),log10.(err1),color="blue",ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss Newton feps=1e-12")
-Plots.plot!(log10.(Nphie),log10.(err2),color="blue",ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss Newton feps=1e-12")
+Plots.plot!(log10.(Nfe),log10.(err1),color="blue",ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss Newton feps=1e-12")
+Plots.plot!(log10.(Nfe),log10.(err2),color="blue",ylabel="log_{10}(erreur pour y_2)",subplot=2,label="Gauss Newton feps=1e-12")
 i = rand(1:length(N))
-annotate!([(log10.(Nphie[i]),log10.(err1[i]), Plots.text("Gauss Newton feps=1e-12", 10,:blue, :center))],subplot=1)
-annotate!([(log10.(Nphie[i]),log10.(err2[i]), Plots.text("Gauss Newton feps=1e-12", 10,:blue, :center))],subplot=2)
+annotate!([(log10.(Nfe[i]),log10.(err1[i]), Plots.text("Gauss Newton feps=1e-12", 10,:blue, :center))],subplot=1)
+annotate!([(log10.(Nfe[i]),log10.(err2[i]), Plots.text("Gauss Newton feps=1e-12", 10,:blue, :center))],subplot=2)
 #legend("Euler", "Runge","Heun","RK4_1","RK4_2","gauss pf feps=1.e-12","Location","SouthWest")
 =#
 display(plt)
