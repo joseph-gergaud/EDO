@@ -21,5 +21,5 @@ t0 = 0
 tf = 6.663286859323130189
 T,Y = ode_euler(fun_toto,[t0 tf],y0,5)
 plt = Plots.plot(layout=(1,3))
-plot_sol(plt,T,Y,"olive","euler")
+plot_sol(plt,T,Y,"blue","euler")
 plot(T*ones(1,2),Y)

@@ -12,15 +12,15 @@ using LinearAlgebra
  Numerical integration by Gauss method of order 4
  The solution on the non linear equation is computed by Newton method
 
- function [T,Y,nphie,ndphie,ifail,KK]=ode_gauss_v3(phi,dphi,t0tf,y0,option)
+ function [T,Y,nphie,ndphie,ifail,KK]=ode_gauss_v3(phi,dphi,t0tf,y0,options)
  Input parameters
  ----------------
  phi = second member ypoint=phi(t,y)
  t0tf = [t0,tf]
  y0 = initial point
- option(1) = N = number of step
- option(2) = fpitermax = maximum number of iterations for the fixed point
- option(3) = fpeps = epsilon for the test of progress in the fixed point
+ options(1) = N = number of step
+ options(2) = fpitermax = maximum number of iterations for the fixed point
+ options(3) = fpeps = epsilon for the test of progress in the fixed point
 
  Output parameters
  -----------------
@@ -40,7 +40,7 @@ using LinearAlgebra
  k1 and k2 = k1 and k2 of the Runge-Kutta scheme
  delta1y
 """
-function ode_gauss_v3(phi::Function,dphi::Function,t0tf,y0,option)
+function ode_gauss_newton(phi::Function,dphi::Function,t0tf,y0,options)
 
     # Initialisation
     # --------------
@@ -58,12 +58,12 @@ function ode_gauss_v3(phi::Function,dphi::Function,t0tf,y0,option)
     # Input variables
     t = t0tf[1]
     tf = t0tf[2]
-    N = Int(option[1])
-    fpitermax = option[2]
-    fpeps = option[3]
+    N = Int(options[1])
+    fpitermax = options[2]
+    fpeps = options[3]
 
     # Output variables
-    ifail = ones(N) 
+    ifail = -ones(N) 
     nphie = 0 
     ndphie = 0
     T = zeros(N+1)
@@ -72,20 +72,14 @@ function ode_gauss_v3(phi::Function,dphi::Function,t0tf,y0,option)
     n = length(y0)
     Y = zeros(N+1,n)
     Y[1,:] = y'
+
     # Local variables
-    h = (tf - t)/N
-    KK = []
-    
+    h = (tf - t)/N   
     # Boucle principale
-    for i=1:N,
+    for i=1:N
         t1 = t + c1*h
         t2 = t + c2*h
         K = [phi(t1,y) ;phi(t2,y)]
-        if KK == []
-            KK = K
-        else
-            KK = [KK K]
-        end
         k1 = K[1:n]
         k2 = K[n+1:2*n]
         nphie = nphie + 2
@@ -105,15 +99,13 @@ function ode_gauss_v3(phi::Function,dphi::Function,t0tf,y0,option)
             deltaK = -JFK0 \ FK0
             normprog = norm(deltaK)
             K = K + deltaK
-            KK = [KK K]
             k1 = K[1:n] 
             k2 = K[n+1:2*n]
             nbiter = nbiter + 1        
-        end # end while
+        end 
 
-        if (normprog > fpeps)
-            ifail[i] = -1
-        else
+        # si la solution est trouvée
+        if (normprog <= fpeps)
             ifail[i] = nbiter
         end
         
@@ -121,9 +113,7 @@ function ode_gauss_v3(phi::Function,dphi::Function,t0tf,y0,option)
         T[i+1] = t
         y = y + h*(b1*k1 + b2*k2)
         Y[i+1,:] = y'	
-    end # end for
-    T = T[:]
-    
-    return T,Y,nphie,ndphie,ifail,KK
+    end
+    return T,Y,nphie,ndphie,ifail
 end
 

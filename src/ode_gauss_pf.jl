@@ -11,15 +11,15 @@ Email:    gergaud@enseeiht.fr
 
 Numerical integration by Gauss method of order 4
 
-function [T,Y,nphie,ifail,KK]=ode_gauss_v2(phi,t0tf,y0,option)
+function [T,Y,nphie,ifail,KK]=ode_gauss_v2(phi,t0tf,y0,options)
 Input parameters
 ----------------
 phi = second member ypoint=phi(t,y)
 t0tf = [t0,tf]
 y0 = initial point
-option(1) = N = number of step
-option(2) = fpitermax = maximum number of iterations for the fixed point
-option(3) = fpeps = epsilon for the test of progress in the fixed point
+options(1) = N = number of step
+options(2) = fpitermax = maximum number of iterations for the fixed point
+options(3) = fpeps = epsilon for the test of progress in the fixed point
 
 Output parameters
 -----------------
@@ -39,7 +39,7 @@ h = constant step
 k1 and k2 = k1 and k2 of the Runge-Kutta scheme
 delta1y
 """
-function ode_gauss_v2(phi::Function, t0tf, y0, option)
+function ode_gauss_pf(phi::Function, t0tf, y0, options)
 
     # Initialisation
     # --------------
@@ -51,9 +51,10 @@ function ode_gauss_v2(phi::Function, t0tf, y0, option)
     
     # Input variables
     t = t0tf[1];  tf = t0tf[2]
-    N = Int(option[1])
-    fpitermax = option[2]
-    fpeps = option[3]
+    N = Int(options[1])
+    fpitermax = options[2]
+    fpeps = options[3]
+
     # Output variables
     ifail = ones(N) 
     nphie = 0
@@ -63,34 +64,28 @@ function ode_gauss_v2(phi::Function, t0tf, y0, option)
     n = length(y0)
     Y = zeros(N + 1,n)
     Y[1,:] = y'
+
     # Local variables
     h = (tf - t)/N
-    KK = []
-    
+       
     # Boucle principale
     for i=1:N
         t1 = t + c1 * h
         t2 = t + c2 * h
         k1 = phi(t1, y)
         k2 = phi(t2, y)
-        if KK == []
-            KK = [k1 k2]
-        else
-            KK = [KK [k1 k2]]
-        end
         nphie = nphie + 2
         normprog = 1 
         nbiter = 1
-        while (normprog > fpeps) & (nbiter <= fpitermax) # fixed point
+        while (normprog > fpeps) & (nbiter <= fpitermax) # point fixe
             k1new = phi(t1,y+h*(a11*k1 + a12*k2))
             k2new = phi(t2,y+h*(a21*k1 + a22*k2))
             normprog = norm([k1new-k1 k2new-k2])
             k1 = k1new
             k2 = k2new
-            KK = [KK [k1 k2]]
             nbiter = nbiter + 1
             nphie = nphie + 2            
-        end # end while
+        end 
         if (normprog > fpeps)
             ifail[i] = -1
         else
@@ -100,9 +95,7 @@ function ode_gauss_v2(phi::Function, t0tf, y0, option)
         T[i + 1] = t
         y = y + h*(b1*k1 + b2*k2)
         Y[i + 1,:] = y'	
-    end # end for
-    T = T[:]
-
-    return T, Y, nphie, ifail, KK
+    end 
+    return T, Y, nphie, ifail
 end
 

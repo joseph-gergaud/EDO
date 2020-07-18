@@ -16,7 +16,7 @@ using LinearAlgebra
 """
 
 include("ode_gauss_v3.jl")
-include("ode_gauss_v2.jl")
+include("ode_gauss_pf.jl")
 include("ode_gauss.jl")
 include("ode_euler.jl")
 include("ode_runge.jl")
@@ -38,7 +38,7 @@ options = zeros(3)
 options[1] = N
 options[2] = 15
 options[3] = 1e-12
-T,Y,nphie,ifail,KK = ode_gauss_v2(fun_vdp,[t0 tf],y0,options)
+T,Y,nphie,ifail,KK = ode_gauss_pf(fun_vdp,[t0 tf],y0,options)
 #
 println("Point fixe")
 println("----------")
@@ -91,5 +91,5 @@ plot_sol(plt,T,Y,"cyan","RK42,N="*string(N))
 #N = 200
 #options[1] = N
 #
-#T,Y,nphie,ifail = ode_gauss_v2(fun_vdp,[t0 tf],y0,options)
+#T,Y,nphie,ifail = ode_gauss_pf(fun_vdp,[t0 tf],y0,options)
 #plot_sol(plt,T,Y,"blue","Gauss v2,N="*string(N))
