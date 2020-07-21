@@ -47,28 +47,28 @@ display("text/plain",[T Y])
 plot_sol(plt,T,Y,"blue","euler")
 
 println("Runge")
-display("text/plain","-----")
+println("-----")
 T,Y = ode_runge(fun_vdp,[t0 tf],y0,N)
 println("[T Y]=")
 display("text/plain",[T Y])
 plot_sol(plt,T,Y,"olive","runge")
 
 println("Heun")
-display("text/plain","----")
+println("----")
 T,Y = ode_heun(fun_vdp,[t0 tf],y0,N)
 println("[T Y]=")
 display("text/plain",[T Y])
 plot_sol(plt,T,Y,"magenta","heun")
 
 display("text/plain","rk41")
-display("text/plain","----")
+println("----")
 T,Y = ode_rk41(fun_vdp,[t0 tf],y0,N)
 println("[T Y]=")
 display("text/plain",[T Y])
 plot_sol(plt,T,Y,"green","rk4_1")
 
 println("rk42")
-display("text/plain","-----")
+println("-----")
 T,Y = ode_rk42(fun_vdp,[t0 tf],y0,N)
 println("[T Y]=")
 display("text/plain",[T Y])
@@ -114,7 +114,6 @@ pause("tapez entrée pour voir le graphique des ordres")
 
 # Courbes d"ordre
 # ---------------
-
 
 N = N0
 # Euler
@@ -253,6 +252,7 @@ annotate!([(log10.(Nfe[i]),log10.(err2[i]), Plots.text("Gauss pf", 10,:red, :cen
 display(plt)
 pause("tapez entrée pour voir les vraies Courbes")
 plt = Plots.plot(layout=(1,2))
+
 # vraie courbe
 # ------------
 Plots.plot!(log10.(Nfe),log10.(err1),color="red", xlabel="log_{10}(fe)", ylabel="log_{10}(erreur pour y_1)",subplot=1,label="Gauss pf feps=1e-12")

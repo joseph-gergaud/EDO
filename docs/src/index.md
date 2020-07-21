@@ -3,7 +3,7 @@ Le package [EDO](https://www.github.com/mathn7/EDO) constitue une solution des T
 
 ###### Auteurs : Joseph GERGAUD
 ```
-    - Date:     december 2011
+    - Date:     septembre 2020
     - Adresse:  INP-ENSEEIHT-IRIT-UMR CNRS 5055, 2 rue Camichel 31071 Toulouse FRANCE
     - Email:    gergaud@enseeiht.fr
 ```
