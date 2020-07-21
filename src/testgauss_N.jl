@@ -15,8 +15,8 @@ using LinearAlgebra
  ref: Hairer
 """
 
-include("ode_gauss_v2.jl")
-include("ode_gauss_v3.jl")
+include("ode_gauss_pf.jl")
+include("ode_gauss_newton.jl")
 include("fun_vdp.jl")
 include("d_fun_vdp.jl")
 
@@ -45,7 +45,7 @@ options[3] = 1e-12
 Ifail = []
 for i=1:length(N)
     options[1] = N[i] 
-    T,Y,nphie,ndphie,ifail = ode_gauss_v3(fun_vdp,d_fun_vdp,[t0 tf],y0,options)
+    T,Y,nphie,ndphie,ifail = ode_gauss_newton(fun_vdp,d_fun_vdp,[t0 tf],y0,options)
     if Ifail != []
         global Ifail = [Ifail length(findall(ifail==-1))] 
     else
@@ -60,19 +60,19 @@ end
 # pour verifier l"ordre
 # ---------------------
 pyplot()
-plt = Plots.plot(layout=(2,2))
+plt = Plots.plot(layout=(1,2))
 #hold on
 Plots.plot!(log10.(N0),log10.(err1),subplot=1)  
 #hold on
 Plots.plot!(log10.(N0),log10.(err2),subplot=2)
 # vraie courbe
 # ------------
-Plots.plot!(log10.(Nphie),log10.(err1),color="red",xlabel="log_{10}(fe)",ylabel="log_{10}(erreur pour y_1)",subplot=3)
+Plots.plot!(log10.(Nphie),log10.(err1),color="red",xlabel="log_{10}(fe)",ylabel="log_{10}(erreur pour y_1)",subplot=1)
 i=round(length(N)/2)
 #text(log10(Nphie[i] ) ,log10(err1[i] ) ,"\color{red}Gauss")
 #v=axis
 #axis([v(1) v(2) v(3)-4 v(4)])
-Plots.plot!(log10.(Nphie),log10.(err2),color="red",xlabel="log_{10}(nphi)",ylabel="log_{10}(erreur pour y_2)",subplot=4)
+Plots.plot!(log10.(Nphie),log10.(err2),color="red",xlabel="log_{10}(nphi)",ylabel="log_{10}(erreur pour y_2)",subplot=2)
 i=round(length(N)/2)
 #text(log10(Nphie[i] ) ,log10(err2[i] ) ,"\color{red}Gauss")
 #axis([v(1) v(2) v(3)-4 v(4)])

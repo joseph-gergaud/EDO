@@ -12,6 +12,6 @@
   # ref: Hairer page 2 tome 2
 #
 function fun_curtiss(t,y)
-     ypoint = -50*(y.-cos(t))
-     return ypoint
+    ypoint = -50*(y.-cos(t))
+    return ypoint
 end

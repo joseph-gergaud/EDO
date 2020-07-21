@@ -35,9 +35,9 @@ options = zeros(3)
 #
 # Solutions y_1 et y_2 et plan de phase pour RKE
 # ----------------------------------------------
-N = 10
+N = 25
 pyplot()
-plt = Plots.plot(layout=(1,3))
+plt = Plots.plot(layout=(3))
 
 println("Euler")
 println("-----")

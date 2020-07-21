@@ -38,7 +38,7 @@ options = zeros(3)
 options[1] = N
 options[2] = 15
 options[3] = 1e-12
-T,Y,nphie,ifail,KK = ode_gauss_pf(fun_vdp,[t0 tf],y0,options)
+T,Y,nphie,ifail = ode_gauss_pf(fun_vdp,[t0 tf],y0,options)
 #
 println("Point fixe")
 println("----------")
@@ -50,13 +50,13 @@ println("----------")
 #ifail[I] .= options[2]
 closeall()
 pyplot()
-plt = Plots.plot(layout=(1,3))
+plt = Plots.plot(layout=(3))
 plot_sol(plt,T,Y,"red","Gauss v2,N="*string(N))
 
 # KK(:,cumsum(ifail+1))
 #
 # Gauss Newton
-T,Y,nphie,ndphie,ifail,KK = ode_gauss_newton(fun_vdp,d_fun_vdp,[t0 tf],y0,options)
+T,Y,nphie,ndphie,ifail = ode_gauss_newton(fun_vdp,d_fun_vdp,[t0 tf],y0,options)
 println("Newton")
 println("------")
 

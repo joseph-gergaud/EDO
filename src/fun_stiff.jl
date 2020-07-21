@@ -10,7 +10,6 @@
 
 """
 function fun_curtiss(t,y)
-
     ypoint = -50 * y
     return ypoint
 end
