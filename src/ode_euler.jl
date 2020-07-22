@@ -10,7 +10,7 @@ Explicit Euler method
     - T, X = ode_euler(phi,t0tf,y0,N)
 
 # Inputs
-    f    - function     : second member of the ode whith the interface 
+    phi    - function     : second member of the ode whith the interface 
                           xpoint = phi(t, x)
                               t    - real     : time,
                               x = vector of R^n with the same dimension of x0
@@ -22,7 +22,7 @@ Explicit Euler method
     X    - real(N+1,n)  : Matrix of solution, The line i of [T Y] contains ti and x_i
 
 """
-function ode_euler(f::Function,t0tf,x0,N)
+function ode_euler(phi::Function,t0tf,x0,N)
    
     N = Int(N)
     n = length(x0)
@@ -34,9 +34,9 @@ function ode_euler(f::Function,t0tf,x0,N)
     X[1,:] = x0  
     
     for i = 2:N+1         
-        X[i,:] = X[i-1,:] + pas*f(T[i-1],X[i-1,:])
+        X[i,:] = X[i-1,:] + pas*phi(T[i-1],X[i-1,:])
         T[i] = (i-1)*pas
-    end 
+    end
          
     return T, X
 end  

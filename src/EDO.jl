@@ -1,5 +1,10 @@
 module EDO
 
+using LaTeXStrings
+using Test
+using PyPlot
+using Plots
+using LinearAlgebra
 using Markdown
 
 include("ode_gauss_newton.jl")  ; export ode_gauss_newton
