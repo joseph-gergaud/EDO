@@ -2,8 +2,6 @@ module EDO
 
 using LaTeXStrings
 using Test
-using PyPlot
-using Plots
 using LinearAlgebra
 using Markdown
 

@@ -45,7 +45,7 @@ function ode_gauss(phi::Function,t0tf,y0,options)
     T = zeros(N + 1)
     T[1] = t
     y = y0[:]
-    T = zeros(N + 1,length(y))
+    Y = zeros(N + 1,length(y))
     Y[1,:] = y'
 
     # Local variables

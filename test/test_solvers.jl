@@ -57,6 +57,7 @@ tol_erreur = 1e-3
     @test isapprox(Y, Y, atol=tol_erreur)
     @test isapprox(nphie, nphie, atol=tol_erreur)
     @test isapprox(ifail, ifail, atol=tol_erreur)
+    
     # euler point fixe
     T,Y,nphie,ifail = ode_euler_pf(phi,[t0,tf],y0,options)
     @test isapprox(T, T, atol=tol_erreur)

@@ -109,7 +109,7 @@ plot_sol(plt,T,Y,"red","Gauss_Newton")
 #print -depsc fig_solutions_vdp
 #format short
 #diary
-#
+
 pause("tapez entrée pour voir le graphique des ordres")
 
 # Courbes d"ordre
@@ -211,6 +211,7 @@ Plots.plot!(log10.(s*N), log10.(err2),color="cyan", xlabel="log_{10}(fe)", ylabe
 i = rand(1:length(N))
 annotate!([(log10.(s*N[i]),log10.(err1[i]), Plots.text("RK42", 10,:cyan, :center))],subplot=1)
 annotate!([(log10.(s*N[i]),log10.(err2[i]), Plots.text("RK42", 10,:cyan, :center))],subplot=2)
+
 # print -depsc fig1_ordre
 # print -depsc fig2_ordre
 #
