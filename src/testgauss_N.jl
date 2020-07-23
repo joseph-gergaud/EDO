@@ -15,10 +15,10 @@ using LinearAlgebra
  ref: Hairer
 """
 
-include("ode_gauss_pf.jl")
-include("ode_gauss_newton.jl")
-include("fun_vdp.jl")
-include("d_fun_vdp.jl")
+include("solvers/ode_gauss_pf.jl")
+include("solvers/ode_gauss_newton.jl")
+include("functions/fun_vdp.jl")
+include("functions/d_fun_vdp.jl")
 
 y0 = [2.008619860874843136, 0]
 n = length(y0)

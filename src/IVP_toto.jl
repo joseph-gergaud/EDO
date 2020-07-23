@@ -1,7 +1,7 @@
 using Plots
 
-include("fun_toto.jl")
-include("ode_euler.jl")
+include("functions/fun_toto.jl")
+include("solvers/ode_euler.jl")
 include("plot_sol.jl")
 #
 # ~gergaud/ENS/Control/ODE/Matlab/IVP_toto.jl

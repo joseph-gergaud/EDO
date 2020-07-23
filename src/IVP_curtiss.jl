@@ -1,15 +1,15 @@
 using Plots
 using LinearAlgebra
 
-include("fun_curtiss.jl")
-include("fun_toto.jl")
-include("ode_euler_pf.jl")
-include("ode_euler.jl")
-include("ode_runge.jl")
-include("ode_heun.jl")
-include("ode_rk41.jl")
-include("ode_rk42.jl")
-include("ode_gauss_pf.jl")
+include("functions/fun_curtiss.jl")
+include("functions/fun_toto.jl")
+include("solvers/ode_euler_pf.jl")
+include("solvers/ode_euler.jl")
+include("solvers/ode_runge.jl")
+include("solvers/ode_heun.jl")
+include("solvers/ode_rk41.jl")
+include("solvers/ode_rk42.jl")
+include("solvers/ode_gauss_pf.jl")
 
 pause(text) = (print(stdout, text); read(stdin, 1); nothing)
 #

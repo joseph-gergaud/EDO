@@ -5,17 +5,17 @@ Intégration de l'equation differentiel de l'equation de Van der Pol
 ref: Hairer
 """ 
 
-include("ode_gauss_newton.jl")
-include("ode_gauss_pf.jl")
-include("ode_gauss.jl")
-include("ode_euler.jl")
-include("ode_runge.jl")
-include("ode_rk41.jl")
-include("ode_rk42.jl")
-include("ode_heun.jl")
+include("solvers/ode_gauss_newton.jl")
+include("solvers/ode_gauss_pf.jl")
+include("solvers/ode_gauss.jl")
+include("solvers/ode_euler.jl")
+include("solvers/ode_runge.jl")
+include("solvers/ode_rk41.jl")
+include("solvers/ode_rk42.jl")
+include("solvers/ode_heun.jl")
 include("plot_sol.jl")
-include("d_fun_vdp.jl")
-include("fun_vdp.jl")
+include("functions/d_fun_vdp.jl")
+include("functions/fun_vdp.jl")
 
 #nom_fich = "IVP_vdp_N_10.txt"
 #if exist(nom_fich,"file")

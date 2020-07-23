@@ -1,18 +1,18 @@
 
-include("../src/ode_euler.jl")
-include("../src/ode_runge.jl")
-include("../src/ode_rk41.jl")
-include("../src/ode_rk42.jl")
-include("../src/ode_heun.jl")
-include("../src/ode_euler_pasfixe.jl")
+include("../src/solvers/ode_euler.jl")
+include("../src/solvers/ode_runge.jl")
+include("../src/solvers/ode_rk41.jl")
+include("../src/solvers/ode_rk42.jl")
+include("../src/solvers/ode_heun.jl")
+include("../src/solvers/ode_euler_pasfixe.jl")
 
-include("../src/ode_gauss_pf.jl")
-include("../src/ode_euler_pf.jl")
+include("../src/solvers/ode_gauss_pf.jl")
+include("../src/solvers/ode_euler_pf.jl")
 
-include("../src/ode_gauss_newton.jl")
+include("../src/solvers/ode_gauss_newton.jl")
 
-include("../src/d_fun_vdp.jl")
-include("../src/fun_vdp.jl")
+include("../src/functions/d_fun_vdp.jl")
+include("../src/functions/fun_vdp.jl")
 
 solutions = []
 tol_erreur = 1e-3
