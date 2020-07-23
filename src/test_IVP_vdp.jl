@@ -1,7 +1,7 @@
-"""
- Int�gration de l'equation differentiel de l'equation de Van der Pol
- ref: Hairer
-"""
+#
+# Int�gration de l'equation differentiel de l'equation de Van der Pol
+# ref: Hairer
+#
 
 include("solvers/ode_gauss_newton.jl")
 include("solvers/ode_gauss_pf.jl")

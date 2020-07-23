@@ -1,15 +1,6 @@
-"""
- ~gergaud/ENS/edo/Projet/ordre/IVP_curtiss.m
-
- Auteurs:  Joseph GERGAUD
- Date:     december 2011
- Adresse:  INP-ENSEEIHT-IRIT-UMR CNRS 5055
-           2, rue Camichel 31071 Toulouse FRANCE
- Email:    gergaudenseeiht.fr
-***************************************************************************
-
-  pb raide
-"""
+#
+# pb raides
+#
 
 using Plots 
 

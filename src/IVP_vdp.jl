@@ -1,9 +1,9 @@
+#
+# Intégration de l'equation differentiel de l'equation de Van der Pol
+# ref: Hairer
+#
 using Plots
 using LinearAlgebra
-"""
-Intégration de l'equation differentiel de l'equation de Van der Pol
-ref: Hairer
-""" 
 
 include("solvers/ode_gauss_newton.jl")
 include("solvers/ode_gauss_pf.jl")
@@ -16,14 +16,7 @@ include("solvers/ode_heun.jl")
 include("plot_sol.jl")
 include("functions/d_fun_vdp.jl")
 include("functions/fun_vdp.jl")
-
-#nom_fich = "IVP_vdp_N_10.txt"
-#if exist(nom_fich,"file")
-#    delete(nom_fich)
-#end
-#format long
-#diary(nom_fich)
-
+# fonction pause
 pause(text) = (print(stdout, text); read(stdin, 1); nothing)
 
 y0 = [2.008619860874843136; 0]
@@ -117,9 +110,12 @@ pause("tapez entrée pour voir le graphique des ordres")
 
 N = N0
 # Euler
+closeall()
 err1 = zeros(length(N))
 err2 = zeros(length(N))
-closeall()
+Nfe = zeros(length(N))
+Ifail = zeros(length(N))
+
 plt=Plots.plot(layout=(1,2))
 for i=1:length(N)
     T,Y = ode_euler(fun_vdp,[t0 tf],y0,N[i])
@@ -140,8 +136,6 @@ annotate!([(log10.(N[i]),log10.(err2[i]), Plots.text("Euler", 10,:center))],subp
 # Runge
 s = 2
 N = N0/s
-err1 = zeros(length(N))
-err2 = zeros(length(N))
 
 for i=1:length(N)
     T,Y = ode_runge(fun_vdp,[t0 tf],y0,N[i])
@@ -158,8 +152,6 @@ annotate!([(log10.(s*N[i]),log10.(err2[i]), Plots.text("Runge", 10,:olive, :cent
 # Heun
 s = 3
 N = N0/s
-err1 = zeros(length(N))
-err2 = zeros(length(N))
 
 for i=1:length(N)
     T,Y = ode_heun(fun_vdp,[t0 tf],y0,N[i])
@@ -177,8 +169,6 @@ annotate!([(log10.(s*N[i]),log10.(err2[i]), Plots.text("Heun", 10,:magenta, :cen
 # RK4 classique
 s = 4
 N = N0/s
-err1 = zeros(length(N))
-err2 = zeros(length(N))
 
 for i=1:length(N)
     T,Y = ode_rk41(fun_vdp,[t0 tf],y0,N[i])
@@ -196,8 +186,6 @@ annotate!([(log10.(s*N[i]),log10.(err2[i]), Plots.text("RK41", 10,:green, :cente
 # RK4 regle 3/8
 s = 4
 N = N0/s
-err1 = zeros(length(N))
-err2 = zeros(length(N))
 
 for i=1:length(N)
     T,Y = ode_rk42(fun_vdp,[t0 tf],y0,N[i])
@@ -217,7 +205,6 @@ annotate!([(log10.(s*N[i]),log10.(err2[i]), Plots.text("RK42", 10,:cyan, :center
 #
 # Gauss + point fixe
 # -----
-Nfe = []
 s=4
 N=N0/s
 # options[2] = nbre max iteration point fixe
@@ -225,9 +212,6 @@ options[2] = 15
 # epsilon pour le test du point fixe
 # Il faut 1.e-12 car pour les valeurs de N grandes on atteint avec RK4 1.e-12 comme erreur absolue
 options[3] = 1e-12
-Ifail = []
-err1 = zeros(length(N))
-err2 = zeros(length(N))
 Nfe = zeros(length(N))
 Ifail = zeros(length(N))
 for i=1:length(N)
@@ -263,7 +247,6 @@ annotate!([(log10.(Nfe[i]),log10.(err1[i]), Plots.text("Gauss pf feps=1e-12", 10
 annotate!([(log10.(Nfe[i]),log10.(err2[i]), Plots.text("Gauss pf feps=1e-12", 10,:red, :center))],subplot=2)
 #
 # Gauss feps=1.e-6
-Nfe = []
 s = 4
 N = N0/s
 # options[2] = nbre max iteration point fixe
@@ -271,11 +254,7 @@ options[2] = 15
 # epsilon pour le test du point fixe
 # Il faut 1.e-12 car pour les valeurs de N grandes on atteint avec RK4 1.e-12 comme erreur absolue
 options[3] = 1e-6
-Ifail = []
-err1 = zeros(length(N))
-err2 = zeros(length(N))
-Nfe = zeros(length(N))
-Ifail = zeros(length(N))
+
 for i=1:length(N)
     options[1] = N[i]
     T,Y,nfe,ifail = ode_gauss_pf(fun_vdp,[t0 tf],y0,options)    
@@ -295,7 +274,6 @@ annotate!([(log10.(Nfe[i]),log10.(err1[i]), Plots.text("Gauss pf feps=1e-6", 10,
 annotate!([(log10.(Nfe[i]),log10.(err2[i]), Plots.text("Gauss pf feps=1e-6", 10,:center))],subplot=2)
 #
 # Gauss fpitermax=2
-Nfe = []
 s = 4
 N = N0/s
 # options[2] = nbre max iteration point fixe
@@ -303,11 +281,7 @@ options[2] = 2
 # epsilon pour le test du point fixe
 # Il faut 1.e-12 car pour les valeurs de N grandes on atteint avec RK4 1.e-12 comme erreur absolue
 options[3] = 1e-12
-Ifail = []
-err1 = zeros(length(N))
-err2 = zeros(length(N))
-Nfe = zeros(length(N))
-Ifail = zeros(length(N))
+
 for i=1:length(N)
     options[1] = N[i]
     T,Y,nfe,ifail = ode_gauss_pf(fun_vdp,[t0 tf],y0,options)    
@@ -330,7 +304,6 @@ annotate!([(log10.(Nfe[i]),log10.(err2[i]), Plots.text("Gauss pf fpitermax=2", 1
 # Gauss + Newton
 # ---------------
 #=
-Nfe = []
 s = 2
 N = N0/(2*s)
 # options[2] = nbre max iteration point fixe
@@ -339,11 +312,7 @@ options[2] = 15
 # Il faut 1.e-12 car pour les valeurs de N grandes on atteint avec RK4 1.e-12
 # comme erreur absolue
 options[3] = 1e-12
-Ifail = []
-err1 = zeros(length(N))
-err2 = zeros(length(N))
-Nfe = zeros(length(N))
-Ifail = zeros(length(N))
+
 for i=1:length(N)
     options[1] = N[i]
     T,Y,nfe,ndphie,ifail = ode_gauss_newton(fun_vdp,d_fun_vdp,[t0 tf],y0,options)    

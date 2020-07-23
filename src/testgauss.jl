@@ -1,19 +1,11 @@
+#
+# Intégration de l'equation differentiel de l'equation de Van der Pol
+# ref: Hairer
+#
+
 using Plots
 using PyPlot
 using LinearAlgebra
-"""
- ~gergaud/ENS/Control/ODE/Matlab/test_gauss.m
-
- Auteurs:  Joseph GERGAUD
- Date:     nov. 2005
- Adresse:  INP-ENSEEIHT-IRIT-UMR CNRS 5055
-           2, rue Camichel 31071 Toulouse FRANCE
- Email:    gergaudenseeiht.fr
-***************************************************************************
-
- Int�gration de l'equation differentiel de l'equation de Van der Pol
- ref: Hairer
-"""
 
 include("solvers/ode_gauss_newton.jl")
 include("solvers/ode_gauss_pf.jl")

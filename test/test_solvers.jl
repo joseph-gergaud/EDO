@@ -17,7 +17,7 @@ include("../src/functions/fun_vdp.jl")
 solutions = []
 tol_erreur = 1e-3
 
-@testset "test avec l'eq VDP" begin 
+@testset "test avec l'eq de VDP" begin 
 
     # le premier cas de test 
     y0 = [2.008619860874843136, 0]
