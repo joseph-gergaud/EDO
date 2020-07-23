@@ -1,5 +1,5 @@
 #
-# Intégration de l'equation differentiel de l'equation de Van der Pol
+# Intégration de L'équation différentielle considérée est l'équation de Van der Pol
 # ref: Hairer
 #
 using Plots
@@ -17,9 +17,8 @@ t0 = 0
 tf = 6.663286859323130189
 N0 = [120:60:1080; 1200:600:10800] # multiple de 12 pour avoir des nombres entier si on divise par 4 ou 3
 N = N0
-#
-# Gauss Newton
 
+# Gauss Newton
 s = 2
 N = N0/(2*s)
 #N = 10
@@ -52,9 +51,7 @@ end
 # ---------------------
 pyplot()
 plt = Plots.plot(layout=(1,2))
-#hold on
 Plots.plot!(log10.(N0),log10.(err1),subplot=1)  
-#hold on
 Plots.plot!(log10.(N0),log10.(err2),subplot=2)
 # vraie courbe
 # ------------

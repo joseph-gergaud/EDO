@@ -1,7 +1,3 @@
-#
-# Intégration de l'équation differentiel de l'équation de Van der Pol
-# ref: Hairer
-#
 using Plots
 
 include("functions/fun_toto.jl")

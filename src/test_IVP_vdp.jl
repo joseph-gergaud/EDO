@@ -1,5 +1,5 @@
 #
-# Int�gration de l'equation differentiel de l'equation de Van der Pol
+# Intégration de L'équation différentielle considérée est l'équation de Van der Pol
 # ref: Hairer
 #
 

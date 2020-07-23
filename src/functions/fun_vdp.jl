@@ -1,6 +1,6 @@
 using Markdown
 @doc doc"""
-Deuxieme membre de l'equation differentiel de l'equation de Van der Pol
+Deuxieme membre de L'équation différentielle considérée est l'équation de Van der Pol
 
 # Inputs 
   - t = l'instant t  

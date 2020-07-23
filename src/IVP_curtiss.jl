@@ -1,5 +1,5 @@
 #
-# Intégration de l'equation differentiel de l'équation Curtiss et Hirschfelder
+# Intégration de l'équation differentielle considérée de l'équation Curtiss et Hirschfelder
 # ref: Hairer page 3 tome 2; pb raide
 #
 
