@@ -16,18 +16,21 @@ include("solvers/ode_heun.jl")
 include("plot_sol.jl")
 include("functions/d_fun_vdp.jl")
 include("functions/fun_vdp.jl")
+
 # fonction pause
 pause(text) = (print(stdout, text); read(stdin, 1); nothing)
 
 y0 = [2.008619860874843136; 0]
 t0 = 0
 tf = 6.663286859323130189
-N0 = [120:60:1080; 1200:600:10800 ]# 12000:12000:72000] # multiple de 12 pour avoir des nombres entier si on divise
+N0 = [120:60:1080; 1200:600:10800] # 12000:12000:72000] # multiple de 12 pour avoir des nombres entier si on divise
 options = zeros(3)
+
 # par 3 ou 4
 #
 # Solutions y_1 et y_2 et plan de phase pour RKE
 # ----------------------------------------------
+
 N = 25
 pyplot()
 plt = Plots.plot(layout=(3))
@@ -195,7 +198,7 @@ for i=1:length(N)
 end
 
 Plots.plot!(log10.(s*N),log10.(err1),color="cyan", xlabel="log_{10}(fe)", ylabel="log_{10}(erreur pour y_1)",subplot=1,label="RK42")
-Plots.plot!(log10.(s*N), log10.(err2),color="cyan", xlabel="log_{10}(fe)", ylabel="log_{10}(erreur pour y_2)",subplot=2,label="RK42")
+Plots.plot!(log10.(s*N),log10.(err2),color="cyan", xlabel="log_{10}(fe)", ylabel="log_{10}(erreur pour y_2)",subplot=2,label="RK42")
 i = rand(1:length(N))
 annotate!([(log10.(s*N[i]),log10.(err1[i]), Plots.text("RK42", 10,:cyan, :center))],subplot=1)
 annotate!([(log10.(s*N[i]),log10.(err2[i]), Plots.text("RK42", 10,:cyan, :center))],subplot=2)
